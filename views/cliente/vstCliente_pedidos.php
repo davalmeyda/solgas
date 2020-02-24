@@ -10,11 +10,8 @@
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">MIS PEDIDOS</h1>
           </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-              <li class="breadcrumb-item active">Productos</li>
-            </ol>
+          <div class="col-sm-6 text-right">
+		    <button onclick="ajaxPagina('content','../cliente/vstPedidosPrincipal.php');" class="btn btn-primary btn-sm">REALIZAR PEDIDO</button>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -36,15 +33,12 @@
 		                    <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">ACEPTADOS</a>
 		                  </li>
 		                </ul>
-		            		<div class="col-12 text-right">
-		            			<button onclick="ajaxPagina('content','../cliente/vstPedidosPrincipal.php');" class="btn btn-primary btn-sm">REALIZAR PEDIDO</button>
-		            		</div>
 		            </div>
 	            	<div class="card-body">
 	            		<div class="tab-content" id="custom-tabs-two-tabContent">
                   			<div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
 					        	<div class="table-responsive">
-									<table class="table table-striped">
+									<table class="table table-striped tblCliente">
 										<thead>
 											<tr>
 												<td>ID</td>
@@ -61,7 +55,7 @@
 													<td><?= $list['id_ped'] ?></td>
 													<td>PEDIDO</td>
 													<td><?= $list['serie'] ?></td>
-													<td><?= $list['fecini_ped'] ?> KG</td>
+													<td><?= $list['fecini_ped'] ?></td>
 													<td><?= $list['total_ped'] ?></td>
 													<td><a href="../../dist/pedidos/pedido<?= $list['id_ped'] ?>.pdf" target="_BLANK" class="btn btn-outline-info"><span class="fas fa-eye"></span></a></td>
 												</tr>
@@ -72,7 +66,7 @@
 							</div>
 							<div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
 			                    <div class="table-responsive">
-									<table class="table table-striped">
+									<table class="table table-striped tblCliente">
 										<thead>
 											<tr>
 												<td>ID</td>
@@ -100,7 +94,7 @@
 													<td>NOTA DE CREDITO</td>
 												<?php } ?>
 													<td><?= $list['serie_ven'] ?>-<?= $list['correlativo_ven'] ?></td>
-													<td><?= $list['fecini_ven'] ?> KG</td>
+													<td><?= $list['fecini_ven'] ?></td>
 													<td><?= $list['total_ven'] ?></td>
 												<?php if ($list['tipo_comprobante'] == 2) { ?>
 													<td><a href="../../dist/proformas/proforma<?= $list['id_com'] ?>.pdf" target="_BLANK" class="btn btn-outline-info"><span class="fas fa-eye"></span></a></td>
@@ -122,3 +116,9 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+	<script>
+	$(function () {
+		$(".tblCliente").DataTable({"order": [[3, "desc"]]});
+		$(".tblCliente").removeAttr('style');
+	});
+	</script>
