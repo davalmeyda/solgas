@@ -229,6 +229,32 @@
 			exit();
 			break;
 		}
+		case 10: {
+			$fecha =  $_POST['fechaPicker'];
+			list($inicio, $barra, $fin) = explode(" ", $fecha);
+			$fin = date('Y-m-d', strtotime($fin));
+			$inicio = date('Y-m-d', strtotime($inicio));
+			$response = $objPrestamoDao->prestamoSelectExportar($inicio, $fin);
+
+			if (!empty($response['DATA'])) {
+				$nombre = 'reporte prestamos.xls';
+				header("Content-Type: application/vnd.ms-excel");
+				header("Content-Disposition: attachment; filename=" . $nombre);
+
+				$mostrar_columnas = false;
+
+				foreach ($response['DATA'] as $data) {
+					if (!$mostrar_columnas) {
+						echo implode("\t", array_keys($data)) . "\n";
+						$mostrar_columnas = true;
+					}
+					echo implode("\t", array_values($data)) . "\n";
+				}
+			} else {
+				echo 'No hay datos a exportar';
+			}
+			exit();
+			break;
+		}
 	}
 	header("Location:" . $page);
-?>

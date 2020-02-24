@@ -31,7 +31,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- checkbox -->
   <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- select2 -->
+   <!-- daterangepicker -->
+   <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css"/>
+  <!-- select2 -->  
   <link rel="stylesheet" href="../plugins/select2/css/select2.min.css"/>
 
   <link rel="stylesheet" type="text/css" href="../css/base.css">
@@ -369,7 +371,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <!-- JsBarcode -->
 <script src="../dist/js/JsBarcode.all.min.js"></script>
-
+<!-- daterangePicker -->
+<script src="../plugins/moment/moment.min.js"></script>
+<script src="../plugins/daterangepicker/daterangepicker.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyDpVrLAddgFJRKLa4PMB98J7q0TiN6LmKM"></script>

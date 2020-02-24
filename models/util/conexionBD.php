@@ -25,7 +25,7 @@
                     $ret['STATUS'] = 'OK';
                     if ($llaveprimaria == 0) {
                     	if(is_bool($resp) == false) {
-	                        while ( $row = mysqli_fetch_array($resp)) {
+	                        while ( $row = mysqli_fetch_assoc($resp)) {
 	                            $ret['DATA'][] = $row;
 	                        }
 	                    }

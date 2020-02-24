@@ -162,5 +162,18 @@ class prestamoDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
+	// EXPORTAR LISTA PRESTAMOS
+	public function prestamoSelectExportar($fechaInicio, $fechaFin)
+	{
+		$fechaFin = "$fechaFin 23:59:59";
+
+		$query = "SELECT prestamo.id_pre as 'ID', cliente.nombres_cli as 'CLIENTE', CONCAT(prestamo.cantidad_pre,' de ',prestamo.total_pre) as CANTIDAD, prestamo.fecha_pre as 'FECHA INICIO', case wheN prestamo.fecreg_pre is null then 'AUN NO FINALIZA' ELSE prestamo.fecreg_pre END as 'FECHA FINAL',  prestamo.motivo_pre AS 'MOTIVO', CONCAT(personal.nombre_per,' ',personal.apellido_per) AS USUARIO
+		FROM prestamo
+		INNER JOIN cliente ON prestamo.id_cli=cliente.id_cli
+		INNER JOIN personal ON prestamo.id_per=personal.id_per
+		WHERE prestamo.fecha_pre >= '$fechaInicio' AND prestamo.fecha_pre <= '$fechaFin'";;
+		$objConexionBD = new ConexionBD();
+		$answer = $objConexionBD->exe_data($query);
+		return $answer;
+	}
 }
-?>

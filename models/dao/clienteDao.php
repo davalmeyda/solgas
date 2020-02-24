@@ -96,5 +96,15 @@ class clienteDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
+	// OBTENER CREDITOS POR RANGO DE FECHAS 
+	public function creditoListFecha($fechaInicio, $fechaFin) {
+		$fechaFin = "$fechaFin 23:59:59";
+		$query = "SELECT id_ven as 'ID', DATE_FORMAT(fecini_ven, '%Y-%m-%d') AS 'FECHA GENERADA',fecfin_ven AS 'FECHA LIMITE', CONCAT(serie_ven,'-',correlativo_ven) AS 'COMPROBANTE',  total_ven AS 'TOTAL VENTA',pago_ven AS 'TOTAL PAGO', cliente.nombres_cli AS 'CLIENTE'
+			FROM venta
+			INNER JOIN cliente ON venta.id_cli=cliente.id_cli
+			WHERE (tipo_comprobante=1 OR tipo_comprobante=3) AND tipo_pago=1 AND fecini_ven >= '$fechaInicio' AND fecini_ven <= '$fechaFin'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
 }
-?>
