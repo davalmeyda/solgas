@@ -140,6 +140,12 @@ $("#divTotal").hover(function(){
     }, function(){
     $("#divTotales").css("display", "");
 });
+
+function rutaChange(valor){
+	documentoCHANGE(valor);
+	draw_rute();
+}
+
 function documentoCHANGE(valor) {
 	__ajax('../../controllers/ventasController.php?op=3','POST','JSON',{'id_cli' : valor})
 	.done(function(info) {

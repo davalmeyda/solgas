@@ -56,6 +56,9 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 								<table class="table-elements">
 									<tr>
 										<td colspan="2">
+
+											<!-- <select id="id_cli" name="id_cli" class="form-control" onchange="rutaChange(this.value)" required>
+				                    </select> -->
 											<select class="form-control" id="id_cli" onchange="draw_rute()">
 											</select>
 										</td>
@@ -189,6 +192,28 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 												[4, "desc"]
 											]
 										});
+									});
+									// BUSQUEDA CLIENTES
+									$('#id_cli').select2({
+										placeholder: 'Buscar Cliente',
+										ajax: {
+											url: "../controllers/buscarController.php?op=1",
+											dataType: 'json',
+											quietMillis: 100,
+											data: function(params) {
+												var query = {
+													search: params.term,
+													type: 'public'
+												}
+												// Query parameters will be ?search=[term]&type=public
+												return query;
+											},
+											results: function(data, page) {
+												return {
+													results: data.results
+												};
+											}
+										},
 									});
 									tblRutamaps.innerHTML = listRutasmaps;
 								})
