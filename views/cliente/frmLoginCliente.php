@@ -30,7 +30,15 @@
 
       <form id="frmLoginCliente" method="post">
         <div class="input-group mb-3">
-          <input name="clave" type="password" class="form-control" placeholder="Contraseña">
+          <input name="correo" type="email" class="form-control" placeholder="Correo" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-at"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input name="clave" type="password" class="form-control" placeholder="Contraseña" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

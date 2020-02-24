@@ -170,8 +170,9 @@
 			break;
 		}
 		case 9: {
+			$correo = $_POST['correo'];
 			$clave = $_POST['clave'];
-			$response = $objClienteDao->clienteVALIDATE($clave);
+			$response = $objClienteDao->clienteVALIDATE($correo,$clave);
 			if (count($response['DATA']) >= 1) {
 				unset($_SESSION['ID_CLI']);
 				$_SESSION['ID_CLI'] = $response['DATA'][0]['id_cli'];

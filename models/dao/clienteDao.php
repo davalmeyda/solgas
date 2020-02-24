@@ -64,8 +64,8 @@ class clienteDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
-	public function clienteVALIDATE($clave_cli) {
-		$query = "SELECT id_cli, nombres_cli, tipdoc_cli, numdoc_cli, telefono_cli, direccion_cli, referencia_cli, correo_cli, usuario_cli, clave_cli FROM cliente WHERE clave_cli='$clave_cli'";
+	public function clienteVALIDATE($correo_cli,$clave_cli) {
+		$query = "SELECT id_cli, nombres_cli, tipdoc_cli, numdoc_cli, telefono_cli, direccion_cli, referencia_cli, correo_cli, clave_cli FROM cliente WHERE correo_cli='$correo_cli' AND clave_cli='$clave_cli'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
