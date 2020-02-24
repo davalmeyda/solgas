@@ -1,0 +1,21 @@
+.globo{
+    position: relative;
+    padding: 1.5em;
+    border-radius: 2em;
+    font-family: sans-serif;
+    z-index: 1; 
+    background-color: white;
+    filter: drop-shadow(0px 0px 1px black);
+    margin-bottom: 40px;
+}
+.globo::before{
+    position: absolute;
+    content: '';
+    z-index: -1;
+    width: 80px;
+    height: 30px;
+    right: 20%;
+    bottom: -10px;
+    background-color: white;
+    transform: skewY(155deg);
+}
