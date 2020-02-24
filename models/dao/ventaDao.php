@@ -85,12 +85,16 @@ class ventaDao {
         return $answer;
 	}
 	public function ventasCliente($id_cli) {
-		$query = "SELECT * FROM (SELECT id_pro AS id_com,serie_ven,correlativo_ven,fecini_ven, 2 AS tipo_comprobante, total_ven, id_cli
-			FROM proforma
-			WHERE estado_pro=1
-			UNION ALL
-			SELECT id_ven AS id_com,serie_ven,correlativo_ven,fecini_ven, tipo_comprobante, total_ven, id_cli
+		$query = "SELECT * FROM (
+			SELECT id_ven AS id_com,serie_ven,correlativo_ven,fecini_ven, venta.tipo_comprobante, total_ven, id_cli, concat(nombre_per,' ',apellido_per) AS nombres_per, 1 AS realizado
 			FROM venta
+			INNER JOIN personal ON venta.id_per=personal.id_per
+			WHERE (estado_ven=2 OR estado_ven=4 OR estado_ven=5) AND venta.id_ven not in (SELECT pedidos.id_ven FROM pedidos where pedidos.id_ven IS NOT NULL)
+			UNION ALL
+			SELECT venta.id_ven AS id_com,serie_ven,correlativo_ven,fecini_ven, venta.tipo_comprobante, total_ven, venta.id_cli, concat(nombre_per,' ',apellido_per) AS nombres_per, 2 AS realizado
+			FROM venta
+			INNER JOIN personal ON venta.id_per=personal.id_per
+			INNER JOIN pedidos ON venta.id_ven=pedidos.id_ven
 			WHERE estado_ven=2 OR estado_ven=4 OR estado_ven=5
 		)a WHERE id_cli='$id_cli'";
 		$objConexionBD = new ConexionBD();
