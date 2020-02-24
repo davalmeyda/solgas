@@ -115,6 +115,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <?php } ?>
         <?php if ($Stipo_per == "1" || $Stipo_per == "2" || $Stipo_per == "3" || $Stipo_per == "4" || $Stipo_per == "5") { ?>
           <li class="nav-item">
+            <a href="javascript:ajaxSimple('content','../controllers/comprobantesController.php',1)" class="nav-link bg-danger">            
+              <i class="nav-icon fas fa-calendar-day"></i>
+              <p>Pedidos</p>
+            </a>
+          </li>
+        <?php } ?>
+        <?php if ($Stipo_per == "1" || $Stipo_per == "2" || $Stipo_per == "3" || $Stipo_per == "4" || $Stipo_per == "5") { ?>
+          <li class="nav-item">
             <a href="javascript:ajaxSimple('content','../controllers/comprobantesController.php',1)" class="nav-link bg-danger">
               <i class="nav-icon fas fa-file-powerpoint"></i>
               <p>Proformas</p>
