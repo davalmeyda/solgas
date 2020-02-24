@@ -197,8 +197,11 @@
 		}
 		case 11: {
 			$pedidosCliente = $objVentaDao->pedidosCliente($Sid_cli);
+			$ventasCliente = $objVentaDao->ventasCliente($Sid_cli);
 			unset($_SESSION['pedidosCliente']);
+			unset($_SESSION['ventasCliente']);
 			$_SESSION['pedidosCliente'] = $pedidosCliente;
+			$_SESSION['ventasCliente'] = $ventasCliente;
 			$page = "../views/cliente/vstCliente_pedidos.php";
 			break;
 		}

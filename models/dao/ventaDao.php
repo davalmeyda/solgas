@@ -84,12 +84,8 @@ class ventaDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
-	public function pedidosCliente($id_cli) {
-		$query = "SELECT * FROM (SELECT id_ped AS id_com,serie AS serie_ven, NULL AS correlativo_ven,fecini_ped AS fecini_ven, 4 AS tipo_comprobante, total_ped AS total_ven, id_cli
-			FROM pedidos
-			WHERE estado_ped=1
-			UNION ALL
-			SELECT id_pro AS id_com,serie_ven,correlativo_ven,fecini_ven, 2 AS tipo_comprobante, total_ven, id_cli
+	public function ventasCliente($id_cli) {
+		$query = "SELECT * FROM (SELECT id_pro AS id_com,serie_ven,correlativo_ven,fecini_ven, 2 AS tipo_comprobante, total_ven, id_cli
 			FROM proforma
 			WHERE estado_pro=1
 			UNION ALL
@@ -97,6 +93,14 @@ class ventaDao {
 			FROM venta
 			WHERE estado_ven=2 OR estado_ven=4 OR estado_ven=5
 		)a WHERE id_cli='$id_cli'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function pedidosCliente($id_cli) {
+		$query = "SELECT id_ped,serie, fecini_ped, total_ped, id_cli
+			FROM pedidos
+			WHERE estado_ped=1 AND id_cli='$id_cli'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
