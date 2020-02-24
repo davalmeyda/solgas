@@ -470,7 +470,7 @@ function AsignarRuta(id_repmap) {
         <button class="btn btn-secondary btn-block btn-xs" onclick="mdlVerPedido(${id_repmap})">Ver pedido</button>
       `);
       var nRows = $('#tblRutamaps > tbody > tr').length;
-      $('#tblRutamaps tbody').append(`<tr>
+      $('#tblRutamaps tbody').prepend(`<tr>
           <td>${parseInt(nRows)+1}</td>
           <td>${info.DATA[0].nombres_per}</td>
           <td>${info.DATA[0].nombres_cli}</td>
