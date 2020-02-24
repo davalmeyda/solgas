@@ -35,13 +35,19 @@ class clienteDao {
         return $answer;
 	}
 	public function clienteDATA($id_cli) {
-		$query = "SELECT id_cli, nombres_cli, tipdoc_cli, numdoc_cli, telefono_cli, direccion_cli, referencia_cli, correo_cli FROM cliente WHERE id_cli='$id_cli'";
+		$query = "SELECT id_cli, nombres_cli, tipdoc_cli, numdoc_cli, telefono_cli, direccion_cli, referencia_cli, correo_cli, clave_cli FROM cliente WHERE id_cli='$id_cli'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
 	public function clienteUPDATE(clienteBean $objClienteBean) {
 		$query = "UPDATE cliente SET nombres_cli='" . $objClienteBean->getNombres_cli() . "',tipdoc_cli='" . $objClienteBean->getTipdoc_cli() . "',numdoc_cli='" . $objClienteBean->getNumdoc_cli() . "',telefono_cli='" . $objClienteBean->getTelefono_cli() . "',direccion_cli='" . $objClienteBean->getDireccion_cli() . "',referencia_cli='" . $objClienteBean->getReferencia_cli() . "',correo_cli='" . $objClienteBean->getCorreo_cli() . "' WHERE id_cli='" . $objClienteBean->getId_cli() . "'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function clienteUPDATExu(clienteBean $objClienteBean) {
+		$query = "UPDATE cliente SET nombres_cli='" . $objClienteBean->getNombres_cli() . "',telefono_cli='" . $objClienteBean->getTelefono_cli() . "',direccion_cli='" . $objClienteBean->getDireccion_cli() . "',referencia_cli='" . $objClienteBean->getReferencia_cli() . "',correo_cli='" . $objClienteBean->getCorreo_cli() . "',clave_cli='" . $objClienteBean->getClave_cli() . "' WHERE id_cli='" . $objClienteBean->getId_cli() . "'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;

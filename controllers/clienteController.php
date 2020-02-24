@@ -341,6 +341,36 @@
 			exit();
 			break;
 		}
+		case 16: { #Perfil de cliente
+			$msj = '';
+			if(isset($_GET['msj'])) {
+				$msj = '?msj='.$_GET['msj'];
+			}
+			$clienteDATA = $objClienteDao->clienteDATA($Sid_cli);
+			unset($_SESSION['clienteDATA']);
+			$_SESSION['clienteDATA'] = $clienteDATA;
+			$page = "../views/cliente/frmCliente_perfil.php".$msj;
+			break;
+		}
+		case 17: { #Editar perfil de cliente
+			$nombres_cli = $_POST['nombres_cli'];
+			$telefono_cli = $_POST['telefono_cli'];
+			$direccion_cli = $_POST['direccion_cli'];
+			$referencia_cli = $_POST['referencia_cli'];
+			$correo_cli = $_POST['correo_cli'];
+			$clave_cli = $_POST['clave_cli'];
+			$objClienteBean->setId_cli($Sid_cli);
+			$objClienteBean->setNombres_cli($nombres_cli);
+			$objClienteBean->setTelefono_cli($telefono_cli);
+			$objClienteBean->setDireccion_cli($direccion_cli);
+			$objClienteBean->setReferencia_cli($referencia_cli);
+			$objClienteBean->setCorreo_cli($correo_cli);
+			$objClienteBean->setClave_cli($clave_cli);
+			$response = $objClienteDao->clienteUPDATExu($objClienteBean);
+			echo json_encode($response);
+			exit();
+			break;
+		}
 	}
 	header("Location:" . $page);
 ?>
