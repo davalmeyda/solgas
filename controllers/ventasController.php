@@ -374,6 +374,9 @@
 				if ($_POST['id_pro'] != '') {
 					$objVentaDao->proformaUPDATE(2,$id_ven,$_POST['id_pro']);
 				}
+				if ($_POST['id_ped'] != '') {
+					$objVentaDao->pedidoUPDATE(2,$id_ven,$_POST['id_ped']);
+				}
 			} else {
 				$response['STATUS'] = "ERROR";
 				$response['ERROR'] = $response['ERROR'];

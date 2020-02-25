@@ -508,6 +508,93 @@ function opcionesComprobanteOPEN(id_ven,stipo_per) {
 		}
 	});
 }
+
+function opcionesPedidosOPEN(id_ped,stipo_per) {
+	__ajax('../controllers/comprobantesController.php?op=15','POST','JSON',{'id_ped' : id_ped})
+	.done(function(info) {
+		if (info.STATUS == 'OK') {
+			var modal = '';
+			modal += `<div class="row">
+				          <div class="col">
+				            <div class="form-group">
+				              <div class="form-control text-center" style="height: 100px;">
+				              	<h5><strong>PEDIDO</strong></h5>
+								<h5><span>${info.DATA[0].serie}</span></h5>
+				                <h5><strong>S/ ${info.DATA[0].total_ped}</strong></h5>
+				              </div>
+				            </div>
+				          </div>
+				        </div>
+				        <div class="row">
+				          <div class="col">
+				            <div class="form-group">
+				              <div class="form-control" style="height: 90px;">
+				                <h5><strong>CLIENTE</strong></h5>
+				                <h6>${info.DATA[0].nombres_cli}</h6>`;
+			if (info.DATA[0].tipdoc_cli == 6){
+				modal += `<h6>RUC ${info.DATA[0].numdoc_cli}</h6>`;
+			}
+			if (info.DATA[0].tipdoc_cli == 1){
+				modal += `<h6>DNI ${info.DATA[0].numdoc_cli}</h6>`;
+			}
+				    modal += `</div>
+				            </div>
+				          </div>
+				        </div>
+				        <div class="row">
+				          <div class="col">
+				            <div class="form-group">
+				              <div class="form-control" style="height: 90px;">
+				                <h5><strong>USUARIO</strong></h5>
+				                <h6>INVERSIONES Y MULTISERVICIOS ACN</h6>
+				                <h6>${info.DATA[0].nfecini_ped}</h6>
+				              </div>
+				            </div>
+				          </div>
+				        </div>
+				        <div class="row">
+				          <div class="col">
+				            <div class="form-group">
+				              <a class="btn btn-primary btn-block" href="../dist/proformas/proforma${info.DATA[0].id_pro}.pdf" target="_BLANK">VISUALIZAR PDF</a>
+				            </div>
+				          </div>`;
+			if (info.DATA[0].estado_ped == 1 && (stipo_per == 1 || stipo_per == 2 || stipo_per == 3)) {
+				modal += `<div class="col">
+				            <div class="form-group">
+				              <button class="btn btn-primary btn-block" type="button" onclick="ajaxPagina('content','./ventas/ventasPrincipal.php?id_ped=${info.DATA[0].id_ped}')">CONVERTIR A CPE</button>
+				            </div>
+				          </div>`;
+			}
+			modal += `</div>`;
+			if (info.DATA[0].estado_ped == 1) {
+				if (stipo_per == 1) {
+				modal += `<div class="row">
+						  <div class="col">
+				            <div class="form-group">
+				              <button class="btn btn-danger btn-block" type="button" onclick="ajaxCompuesto('content','../controllers/comprobantesController.php',17,'id_ped=${info.DATA[0].id_ped}');modalDestroy()">RECHAZAR</button>
+				            </div>
+				          </div>
+				        </div>`;
+				}
+				var fechaactual = new Date();
+				var fechaactual = sumarDias(fechaactual,-1);
+				var fechalimit = transformFecha(fechaactual);
+				if (stipo_per == 2 && info.DATA[0].fecini_ven >= fechalimit) {
+				modal += `<div class="row">
+						  <div class="col">
+				            <div class="form-group">
+				              <button class="btn btn-danger btn-block" type="button" onclick="ajaxCompuesto('content','../controllers/comprobantesController.php',17,'id_ped=${info.DATA[0].id_ped}');modalDestroy()">RECHAZAR</button>
+				            </div>
+				          </div>
+				        </div>`;
+				}
+			}
+			$('#mdlbodyVerOpcionesProforma').html(modal);
+			modalShow('mdlVerOpcionesProforma');
+		}
+	});
+}
+
 function opcionesProformaOPEN(id_pro,stipo_per) {
 	__ajax('../controllers/comprobantesController.php?op=9','POST','JSON',{'id_pro' : id_pro})
 	.done(function(info) {
@@ -598,6 +685,55 @@ function cargarDATAVenta(id_pro) {
 	.done(function(info) {
 		if (info.STATUS == 'OK') {
 			$('#id_pro').val(id_pro);
+			$('#id_cli').append(`<option value="${info.DATA[0].id_cli}">${info.DATA[0].nombres_cli}</option>`);
+			$('#tipdoc_cli').val(info.DATA[0].tipdoc_cli);
+			if (info.DATA[0].tipo_comprobante == 1) {
+				$('#txttipocomprobante').val('FACTURA DE VENTA ELECTRONICA');
+				$('#serie').val('FP01');
+			}
+			if (info.DATA[0].tipo_comprobante == 3) {
+				$('#txttipocomprobante').val('BOLETA DE VENTA ELECTRONICA');
+				$('#serie').val('BP01');
+			}
+			$('#divBodyBalon1').css('display','none');
+			$('#divBodyBalon2').css('display','');
+			for (var i in info.DATA[0].BALONES) {
+				$("#tblVentaProducto > tbody").append(`
+					<tr>
+						<td>
+							<div class="input-group">
+				                <div class="input-group-prepend">
+				                    <button id="boton${parseInt(i)+1}" onclick="borrarlineaProducto(${parseInt(i)+1})" type="button" class="boton btn btn-danger"><span class="fas fa-trash-alt"></span></button>
+				                </div>
+			                  	<input id="item${parseInt(i)+1}" value="${parseInt(i)+1}" type="text" class="item form-control">
+			                </div>
+						</td>
+						<td>
+							<input id="descripcion_balven${parseInt(i)+1}" name="descripcion_balven${parseInt(i)+1}" class="descripcion_balven form-control" type="text" value="${info.DATA[0].BALONES[i].nombre_bal}" style="min-width: 250px;" readonly>
+						</td>
+						<td><input id="cantidad_balven${parseInt(i)+1}" name="cantidad_balven${parseInt(i)+1}" onkeyup="calcularlinea(${parseInt(i)+1})" onchange="calcularlinea(${parseInt(i)+1})" class="cantidad_balven form-control" type="number" min="1" max="${info.DATA[0].BALONES[i].cantidad_bal}" value="${parseInt(info.DATA[0].BALONES[i].cantidad_balven)}" required></td>
+						<td><input id="descuento_balven${parseInt(i)+1}" name="descuento_balven${parseInt(i)+1}" onkeyup="calcularlinea(${parseInt(i)+1})" onchange="calcularlinea(${parseInt(i)+1})" class="descuento_balven form-control" type="number" step="0.01" max="1" value="${info.DATA[0].BALONES[i].descuento_balven}"></td>
+						<td><input id="igv_balven${parseInt(i)+1}" name="igv_balven${parseInt(i)+1}" class="igv_balven form-control" readonly></td>
+						<td><input id="valor_unitario${parseInt(i)+1}" name="valor_unitario${parseInt(i)+1}" class="valor_unitario form-control" type="number" readonly></td>
+						<td><input id="precio_unitario${parseInt(i)+1}" name="precio_unitario${parseInt(i)+1}" class="precio_unitario form-control" value="${info.DATA[0].BALONES[i].precio_unitario}" readonly></td>
+						<td><input id="subtotal${parseInt(i)+1}" name="subtotal${parseInt(i)+1}" class="subtotal form-control" readonly></td>
+						<td><input id="total${parseInt(i)+1}" name="total${parseInt(i)+1}" class="total form-control" readonly></td>
+						<input id="id_bal${parseInt(i)+1}" name="id_bal${parseInt(i)+1}" type="hidden" value="${info.DATA[0].BALONES[i].id_bal}">
+					</tr>
+				`);
+				calcularlinea(parseInt(i)+1);
+			}
+			$('#btnProcesarVenta').removeAttr('disabled');
+			$('#btnProcesarVentaAnonima').removeAttr('disabled');
+			$('#id_bal > ').remove();
+		}
+	});
+}
+function cargarDATAPedido(id_ped) {
+	__ajax('../controllers/comprobantesController.php?op=16','POST','JSON',{'id_ped' : id_ped})
+	.done(function(info) {
+		if (info.STATUS == 'OK') {
+			$('#id_ped').val(id_ped);
 			$('#id_cli').append(`<option value="${info.DATA[0].id_cli}">${info.DATA[0].nombres_cli}</option>`);
 			$('#tipdoc_cli').val(info.DATA[0].tipdoc_cli);
 			if (info.DATA[0].tipo_comprobante == 1) {

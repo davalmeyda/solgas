@@ -7,9 +7,13 @@
   if (isset($_GET['pro'])) {
     $pro = $_GET['pro'];
   }
+  if (isset($_GET['ped'])) {
+    $ped = $_GET['ped'];
+  }
 ?>
 <form id="frmProcesarVenta">
 <input type="hidden" name="id_pro" id="id_pro">
+<input type="hidden" name="id_ped" id="id_ped">
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -596,6 +600,10 @@
   });
 <?php if (isset($_GET['id_pro'])) { ?>
   cargarDATAVenta(<?= $_GET['id_pro'] ?>);
+  modalDestroy();
+<?php } ?>
+<?php if (isset($_GET['id_ped'])) { ?>
+  cargarDATAPedido(<?= $_GET['id_ped'] ?>);
   modalDestroy();
 <?php } ?>
 </script>

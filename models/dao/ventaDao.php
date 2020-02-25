@@ -28,6 +28,14 @@ class ventaDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
+	public function pedidosSELECT($fecha) {
+		$query = "SELECT pedidos.id_ped,pedidos.serie,pedidos.fecini_ped, pedidos.estado_ped, cliente.id_cli,cliente.nombres_cli,cliente.numdoc_cli FROM pedidos 
+		INNER JOIN cliente ON pedidos.id_cli=cliente.id_cli 
+		WHERE pedidos.fecini_ped LIKE '$fecha%' ORDER BY pedidos.id_ped DESC";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
 	public function proformaSELECT($fecha) {
 		$query = "SELECT proforma.id_pro,proforma.serie_ven,proforma.correlativo_ven,proforma.fecini_ven, proforma.estado_pro, cliente.id_cli,cliente.nombres_cli,cliente.numdoc_cli FROM proforma
 		INNER JOIN cliente ON proforma.id_cli=cliente.id_cli
@@ -47,6 +55,12 @@ class ventaDao {
 	public function balon_proformaSELECT($id_pro) {
 		$query = "SELECT id_balpro, fecreg_balven, descripcion_balven, cantidad_balven, igv_balven, valor_unitario, precio_unitario, descuento_balven, valor_balven, id_bal, id_pro FROM balon_proforma
 		WHERE id_pro='$id_pro'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function balon_pedidoSELECT($id_ped) {
+		$query = "SELECT id_balped, fecreg_balped, descripcion_balped, cantidad_balped, igv_balped, valor_unitario, precio_unitario, descuento_balped, valor_balped, id_bal, id_ped FROM balon_pedido WHERE id_ped='$id_ped'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
@@ -80,6 +94,14 @@ class ventaDao {
 		$query = "SELECT proforma.id_pro,proforma.serie_ven,proforma.correlativo_ven,proforma.fecini_ven, proforma.fecfin_ven, proforma.tipo_comprobante, proforma.total_ven, proforma.estado_pro, cliente.id_cli, cliente.nombres_cli, cliente.tipdoc_cli, cliente.numdoc_cli, cliente.direccion_cli FROM proforma
 		INNER JOIN cliente ON proforma.id_cli=cliente.id_cli
 		WHERE proforma.id_pro='$id_pro'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function pedidosDATA($id_ped) {
+		$query = "SELECT pedidos.id_ped,pedidos.serie,pedidos.fecini_ped,pedidos.tipo_comprobante,pedidos.total_ped, pedidos.estado_ped, cliente.id_cli, cliente.nombres_cli, cliente.tipdoc_cli, cliente.numdoc_cli, cliente.direccion_cli FROM pedidos
+		INNER JOIN cliente ON pedidos.id_cli=cliente.id_cli
+		WHERE pedidos.id_ped='$id_ped'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
@@ -167,6 +189,12 @@ class ventaDao {
 	}
 	public function proformaUPDATE($estado_pro,$id_ven,$id_pro) {
 		$query = "UPDATE proforma SET estado_pro='$estado_pro', id_ven='$id_ven' WHERE id_pro='$id_pro'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function pedidoUPDATE($estado_ped,$id_ven,$id_ped) {
+		$query = "UPDATE pedidos SET estado_ped='$estado_ped', id_ven='$id_ven' WHERE id_ped='$id_ped'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
