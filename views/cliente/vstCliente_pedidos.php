@@ -1,5 +1,6 @@
 <?php
-  	session_start();
+	session_start();
+	$Snombres_cli = $_SESSION['NOMBRES_CLI'];
 	$pedidosCliente = $_SESSION['pedidosCliente'];
 	$ventasCliente = $_SESSION['ventasCliente'];
 ?>
@@ -73,6 +74,7 @@
 												<td>COMPROBANTE</td>
 												<td>SERIE</td>
 												<td>FECHA</td>
+												<td>REALIZADO</td>
 												<td>TOTAL</td>
 												<td>VER PDF</td>
 											</tr>
@@ -95,6 +97,12 @@
 												<?php } ?>
 													<td><?= $list['serie_ven'] ?>-<?= $list['correlativo_ven'] ?></td>
 													<td><?= $list['fecini_ven'] ?></td>
+												<?php if ($list['realizado'] == 1) { ?>
+													<td><?= $list['nombres_per'] ?></td>
+												<?php } ?>
+												<?php if ($list['realizado'] == 2) { ?>
+													<td><?= $Snombres_cli ?></td>
+												<?php } ?>
 													<td><?= $list['total_ven'] ?></td>
 												<?php if ($list['tipo_comprobante'] == 2) { ?>
 													<td><a href="../../dist/proformas/proforma<?= $list['id_com'] ?>.pdf" target="_BLANK" class="btn btn-outline-info"><span class="fas fa-eye"></span></a></td>
