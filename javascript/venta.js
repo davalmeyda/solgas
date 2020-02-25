@@ -579,7 +579,7 @@ function opcionesPedidosOPEN(id_ped,stipo_per) {
 				var fechaactual = new Date();
 				var fechaactual = sumarDias(fechaactual,-1);
 				var fechalimit = transformFecha(fechaactual);
-				if (stipo_per == 2 && info.DATA[0].fecini_ven >= fechalimit) {
+				if (stipo_per == 2 && info.DATA[0].fecini_ped >= fechalimit) {
 				modal += `<div class="row">
 						  <div class="col">
 				            <div class="form-group">
