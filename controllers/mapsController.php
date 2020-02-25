@@ -247,12 +247,14 @@
 						$mail->FromName = "Solgas";
 						$mail->isHTML(true);
 						$mail->Subject  = "Venta Solgas";
-						$link = "https://solgastrujillo.pe/WebSystemSolgasv3.2/views/mapsClients.php?id_rutmap=" . $id_rutmap;
+						$link = "https://solgastrujillo.pe/WebSystemSolgasv3.3/views/mapsClients.php?id_rutmap=" . $id_rutmap;
 						$cuerpo = "<h4>Gracias por su compra</h4><br>
 						<h6>Entra es este link para visializar la llegada de su producto</h6><br>
-						<a href='" . $link . "'>https://solgastrujillo.pe/WebSystemSolgasv3.2/views/mapsClients.php</a>";
+						<a href='" . $link . "'>https://solgastrujillo.pe/WebSystemSolgasv3.3/views/mapsClients.php</a>";
 						$mail->Body = $cuerpo;
-						$mail->AddAddress($response['DATA'][0]['correo_cli'],$response['DATA'][0]['nombres_cli']);
+						$correo_cli = $response['DATA'][0]['correo_cli'];
+						$nombres_cli = $response['DATA'][0]['nombres_cli'];
+						$mail->AddAddress($correo_cli,$nombres_cli);
 						$mail->SMTPAuth = true;
 						$mail->Username = "esteticarubi20@gmail.com";
 						$mail->Password = "Estetica@123";

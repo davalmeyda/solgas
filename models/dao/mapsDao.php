@@ -28,7 +28,7 @@ class mapsDao {
 			INNER JOIN venta ON balon_venta.id_ven=venta.id_ven
 			INNER JOIN rutasmaps ON venta.id_ven=rutasmaps.id_ven
 			INNER JOIN repartidormaps ON rutasmaps.id_repmap=repartidormaps.id_repmap
-			WHERE (rutasmaps.estado_rutmap=1 OR rutasmaps.estado_rutmap=2) AND repartidormaps.estado_repmap=3 AND repartidormaps.id_repmap='$id_repmap'";
+			WHERE (rutasmaps.estado_rutmap=1 OR rutasmaps.estado_rutmap=2) AND (repartidormaps.estado_repmap=2 OR repartidormaps.estado_repmap=3) AND repartidormaps.id_repmap='$id_repmap'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;

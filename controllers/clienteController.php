@@ -71,10 +71,10 @@
 				$mail->FromName = "Solgas";
 				$mail->isHTML(true);
 				$mail->Subject  = "Venta Solgas";
-				$link = "https://solgastrujillo.pe/WebSystemSolgasv3.2/views/cliente";
+				$link = "https://solgastrujillo.pe/WebSystemSolgasv3.3/views/cliente";
 				$cuerpo = "<h4>Se registro su cuenta en solgas</h4><br>
 				<h6><strong>Clave: </strong>" . $clave . "</h6><br>
-				<a href='" . $link . "'>https://solgastrujillo.pe/WebSystemSolgasv3.2/views/cliente</a>";
+				<a href='" . $link . "'>https://solgastrujillo.pe/WebSystemSolgasv3.3/views/cliente</a>";
 				$mail->Body = $cuerpo;
 				$mail->AddAddress($correo_cli,$nombres_cli);
 				$mail->SMTPAuth = true;
