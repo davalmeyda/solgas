@@ -34,6 +34,15 @@ class personalDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
+	public function personalSERCH_idtemp($parametro,$id_temp) {
+		$query = "SELECT id_per, nombre_per, apellido_per, nacionalidad_per, tipdoc_per, numdoc_per, tipo_user, usuario_per, clave_per, templeado.id_temp, templeado.nota_temp
+			FROM personal
+			INNER JOIN templeado ON personal.id_temp=templeado.id_temp
+			WHERE templeado.id_temp='$id_temp' AND (nombre_per LIKE'%$parametro%' OR numdoc_per LIKE '%$parametro%') LIMIT 10";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
 	public function personalINSERT(personalBean $objPersonalBean) {
 		$query = "INSERT INTO personal(id_per, nombre_per, apellido_per, fecing_per, fecnac_per, correo_per, direccion_per, nacionalidad_per, foto_per, licencia_per, tipo_contrato, tipdoc_per, numdoc_per, tipo_user, usuario_per, clave_per, id_temp) VALUES (NULL,'" . $objPersonalBean->getNombre_per() . "','" . $objPersonalBean->getApellido_per() . "','" . $objPersonalBean->getFecing_per() . "','" . $objPersonalBean->getFecnac_per() . "','" . $objPersonalBean->getCorreo_per() . "','" . $objPersonalBean->getDireccion_per() . "','" . $objPersonalBean->getNacionalidad_per() . "','" . $objPersonalBean->getFoto_per() . "','" . $objPersonalBean->getLicencia_per() . "','" . $objPersonalBean->getTipo_contrato() . "','" . $objPersonalBean->getTipdoc_per() . "','" . $objPersonalBean->getNumdoc_per() . "','" . $objPersonalBean->getTipo_user() . "','" . $objPersonalBean->getUsuario_per() . "','" . $objPersonalBean->getClave_per() . "','" . $objPersonalBean->getId_temp() . "')";
 		$objConexionBD = new ConexionBD();

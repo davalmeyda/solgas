@@ -101,7 +101,11 @@ function productoSelectTra(id_bal) {
 			            </div>
 		                <input id="item${count+1}" value="${count+1}" type="text" class="item form-control">
 					</td>
-					<td>${info.DATA[0].nombre_bal}</td>
+					<td style="position: relative">${info.DATA[0].nombre_bal} `;
+					if (info.DATA[0].categoria_bal == 'PREMIUN') {
+						row += `<span class="right badge badge-warning" style="position: absolute;top: 5px;right: 0">PREMIUN</span>`;
+					}
+						row += `</td>
 					<td>
 						<input id="cantidad_balguitra${count+1}" name="cantidad_balguitra${count+1}" class="cantidad_balguitra form-control" type="number" min="1" placeholder="Cantidad" required>
 					</td>
@@ -336,4 +340,19 @@ function opcionesGuiatransportistaOPEN(id_guitra) {
 			modalShow('mdlVerOpcionesGuiatransportista');
 		}
 	});
+}
+function sltId_perCHANGE(id_per) {
+	__ajax('../controllers/personalController.php?op=8','POST','JSON',{'id_per' : id_per})
+	.done(function(data) {
+		if (data.STATUS == 'OK') {
+			$("label[for='ruc_guitra']").text(data.DATA[0].tipdoc_per);
+			$('#ruc_guitra').val(data.DATA[0].numdoc_per);
+			if (data.DATA[0].licencia_per == '') {
+				$('#nlicencia_guitra').removeAttr('placeholder');
+				$('#nlicencia_guitra').attr('placeholder','SIN LICENCIA');
+			} else {
+				$('#nlicencia_guitra').val(data.DATA[0].licencia_per);
+			}
+		}
+	})
 }

@@ -118,7 +118,7 @@
                 <div class="form-group row">
                   <label for="nombers_guitra" class="col-sm-2 col-form-label">Nombres Transportista*</label>
                   <div class="col-sm-10">
-                    <input name="nombers_guitra" id="nombers_guitra" type="text" class="form-control" required>
+                    <select id="nombers_guitra" name="nombers_guitra" onchange="sltId_perCHANGE(this.value)"></select>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -146,11 +146,11 @@
                 <div class="form-group row">
                   <label for="nconstancia_guitra" class="col-sm-2 col-form-label">N constancia*</label>
                   <div class="col-sm-4">
-                    <input name="nconstancia_guitra" id="nconstancia_guitra" class="form-control" type="number" max="99999999999999999999" required>
+                    <input name="nconstancia_guitra" id="nconstancia_guitra" class="form-control" type="number" max="99999999999999999999" readonly required>
                   </div>
                   <label for="nlicencia_guitra" class="col-sm-2 col-form-label">N licencia*</label>
                   <div class="col-sm-4">
-                    <input name="nlicencia_guitra" id="nlicencia_guitra" class="form-control" type="number" max="99999999999999999999" required>
+                    <input name="nlicencia_guitra" id="nlicencia_guitra" class="form-control" type="number" max="99999999999999999999">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -247,48 +247,10 @@
         }
       })
   })
-  $('#id_cli').select2({
-    placeholder: 'Buscar Cliente',
+  $('#nombers_guitra').select2({
+    placeholder: 'Buscar transportista',
     ajax: {
-      url: "../controllers/buscarController.php?op=1",
-      dataType: 'json',
-      quietMillis: 100,
-      data: function (params) {
-        var query = {
-          search: params.term,
-          type: 'public'
-        }
-        // Query parameters will be ?search=[term]&type=public
-        return query;
-      },
-      results: function (data, page) {
-        return { results: data.results };
-      }
-    },
-  });
-  $('.ubigeo').select2({
-    placeholder: 'Buscar Ubigeo',
-    ajax: {
-      url: "../controllers/buscarController.php?op=3",
-      dataType: 'json',
-      quietMillis: 100,
-      data: function (params) {
-        var query = {
-          search: params.term,
-          type: 'public'
-        }
-        // Query parameters will be ?search=[term]&type=public
-        return query;
-      },
-      results: function (data, page) {
-        return { results: data.results };
-      }
-    },
-  });
-  $('#id_per').select2({
-    placeholder: 'Buscar Ubigeo',
-    ajax: {
-      url: "../controllers/buscarController.php?op=4",
+      url: "../controllers/buscarController.php?op=5",
       dataType: 'json',
       quietMillis: 100,
       data: function (params) {
@@ -305,7 +267,7 @@
     },
   });
   $('#sltId_bal').select2({
-    placeholder: 'Buscar Ubigeo',
+    placeholder: 'Buscar Balon',
     ajax: {
       url: "../controllers/buscarController.php?op=2",
       dataType: 'json',

@@ -206,6 +206,13 @@
 			exit();
 			break;
 		}
+		case 8: { #Datos de Personal x id
+			$id_per = $_POST['id_per'];
+			$personalDATA = $objPersonalDao->personalDATA($id_per);
+			echo json_encode($personalDATA);
+			exit();
+			break;
+		}
 	}
 	header("Location:" . $page);
 ?>

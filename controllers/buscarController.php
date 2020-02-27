@@ -122,5 +122,32 @@
 			echo json_encode($ret);
 			break;
 		}
+		case 5: {
+			$return_arr = array();
+			$row_array = array();
+			if(isset($_GET['search']) && strlen($_GET['search']) > 0) {
+				$parametro = $_GET['search'];
+				$data = $objPersonalDao->personalSERCH_idtemp($parametro,5);
+
+				if($data['STATUS'] == 'OK'){
+					foreach ($data['DATA'] as $registros) {
+						$row_array['id'] = $registros['id_per'];
+				        $row_array['text'] = $registros['nombre_per'] . " - " . $registros['apellido_per'];
+				        array_push($return_arr,$row_array);
+					}
+				}else{
+					$row_array['id'] = 0;
+				    $row_array['text'] = utf8_encode('Ecriba algo...');
+				    array_push($return_arr,$row_array);
+				}
+			}else{
+				$row_array['id'] = 0;
+			    $row_array['text'] = utf8_encode('Ecriba algo...');
+			    array_push($return_arr,$row_array);
+			}
+			$ret['results'] = $return_arr;
+			echo json_encode($ret);
+			break;
+		}
 	}
 ?>
