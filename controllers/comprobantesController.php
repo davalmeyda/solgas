@@ -397,5 +397,23 @@ switch ($op) {
 			$page = "../views/comprobantes/pedidosVista.php?fecha=" . $fecha . "&nfecha=" . $nfecha;
 			break;
 		}
+	case 18: {
+			$id_guitra = $_POST['id_guitra'];
+			$serie_ven = $_POST['serie_ven'];
+			$numero_ven = $_POST['numero_ven'];
+			$liquidacion = $objGuiatransportistaDao->guiatransportista_liquidacion($id_guitra);
+			$ventaDATA = $objVentaDao->ventaDATA_serie_numero($serie_ven,$numero_ven);
+			$ventaDATA['DATA'][0]['liquidacion'] = $liquidacion['DATA'][0]['liquidacion'];
+			echo json_encode($ventaDATA);
+			exit();
+			break;
+		}
+		case 19: {
+				$id_guitra = $_POST['id_guitra'];
+				$response = $objGuiatransportistaDao->guiatransportistaUPDATE($id_guitra);
+				echo json_encode($response);
+				exit();
+				break;
+			}
 }
 header("Location:" . $page);

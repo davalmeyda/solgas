@@ -1,5 +1,6 @@
 <?php
 	require_once '../models/dao/personalDao.php';
+	require_once '../models/dao/guiatransportistaDao.php';
 
 	require_once '../models/bean/personalBean.php';
 
@@ -10,6 +11,7 @@
 		$op = $_POST['op'];
 	}
 	$objPersonalDao = new personalDao();
+	$objGuiatransportistaDao = new guiatransportistaDao();
 
 	$objPersonalBean = new personalBean();
 	session_start();
@@ -208,7 +210,9 @@
 		}
 		case 8: { #Datos de Personal x id
 			$id_per = $_POST['id_per'];
+			$guiaTransportistaCOUNT = $objGuiatransportistaDao->guiaTransportistaCOUNT();
 			$personalDATA = $objPersonalDao->personalDATA($id_per);
+			$personalDATA['DATA'][0]['correlativo'] = $guiaTransportistaCOUNT['DATA'][0]['count(*)'];
 			echo json_encode($personalDATA);
 			exit();
 			break;

@@ -146,7 +146,7 @@
                 <div class="form-group row">
                   <label for="nconstancia_guitra" class="col-sm-2 col-form-label">N constancia*</label>
                   <div class="col-sm-4">
-                    <input name="nconstancia_guitra" id="nconstancia_guitra" class="form-control" type="number" max="99999999999999999999" readonly required>
+                    <input name="nconstancia_guitra" id="nconstancia_guitra" class="form-control text-right" type="number" max="99999999999999999999" readonly required>
                   </div>
                   <label for="nlicencia_guitra" class="col-sm-2 col-form-label">N licencia*</label>
                   <div class="col-sm-4">
@@ -197,6 +197,32 @@
         </button>
       </div>
       <div class="modal-body" id="mdlbodyVerOpcionesGuiatransportista">
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="mdlTraking">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h4 class="modal-title">TRACKING DEL USUARIO</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="mdlbodyTraking">
+      </div>
+      <div class="modal-footer" id="mdlfooterTraking">
+				<div class='row'>
+					<div class='col'>
+						<button id="btnfooterTraking" onclick='imprim2()' class='btn btn-warning btn-block'>LIGUIDAR</button>
+					</div>
+					<div class='col'>
+						<button onclick="modalHide('mdlTraking')" class='btn btn-ligth btn-block'>CANCELAR</button>
+					</div>
+				</div>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -285,4 +311,15 @@
       }
     },
   });
+function imprim2(){
+  var printContents = document.getElementById('mdlbodyTraking').innerHTML;
+    w = window.open();
+    w.document.write('TRACKING DEL USUARIO<br><br>');
+    w.document.write(printContents);
+    w.document.close(); // necessary for IE >= 10
+    w.focus(); // necessary for IE >= 10
+    w.print();
+    w.close();
+    return true;
+  }
 </script>

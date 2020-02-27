@@ -329,12 +329,19 @@ function opcionesGuiatransportistaOPEN(id_guitra) {
 				          </div>
 				        </div>
 				        <div class="row">
-				          <div class="col">
-				            <div class="form-group">
-				              <a class="btn btn-primary btn-block" href="../dist/guiatransportista/guiatransportista${info.DATA[0].id_guitra}.pdf" target="_BLANK">VISUALIZAR PDF</a>
-				            </div>
-				          </div>
+				          	<div class="col">
+								<div class="form-group">
+									<a class="btn btn-primary btn-block" href="../dist/guiatransportista/guiatransportista${info.DATA[0].id_guitra}.pdf" target="_BLANK">VISUALIZAR PDF</a>
+								</div>
+								<div class="form-group">
+									<a class="btn btn-primary btn-block" href="javascript:mdlTrakingOPEN(${info.DATA[0].id_guitra},'${info.DATA[0].serie_ven}','${info.DATA[0].numero_ven}')">TRACKING</a>
+								</div>
+							</div>
 				        </div>
+				        <div class="row">
+							<div id='msjopcionesGuiatransportistaOPEN' class="col">
+							</div>
+						</div>
 			`;
 			$('#mdlbodyVerOpcionesGuiatransportista').html(modal);
 			modalShow('mdlVerOpcionesGuiatransportista');
@@ -353,6 +360,88 @@ function sltId_perCHANGE(id_per) {
 			} else {
 				$('#nlicencia_guitra').val(data.DATA[0].licencia_per);
 			}
+			$('#nconstancia_guitra').val(data.DATA[0].correlativo);
+		}
+	})
+}
+function mdlTrakingOPEN(id_guitra ,serie_ven, numero_ven) {
+	__ajax('../controllers/comprobantesController.php?op=18','POST','JSON',{'id_guitra' : id_guitra,'serie_ven' : serie_ven,'numero_ven' : numero_ven})
+	.done(function(data) {
+		if (data.DATA.length > 0) {
+			content = `
+				<div class='row'>
+					<div class='col'>
+						<div class='form-group row'>
+							<span>Cantidad de Balones: ${parseInt('0'+data.DATA[0].cbalon)} UND</span>
+						</div>
+						<div class='form-group row'>
+							<span>Balones Premium Vendidos: ${parseInt('0'+data.DATA[0].cbalon_premiun)} UND</span>
+						</div>
+						<div class='form-group row'>
+							<span>Balones Normales Vendidos: ${parseInt('0'+data.DATA[0].cbalon_normal)} UND</span>
+						</div>
+						<div class='form-group row'>
+							<span>Cantidad de Balones Prestados: 0 UND</span>
+						</div>
+						<div class='form-group row'>
+							<span>Cantidad de Agua Mineral Vendida: ${parseInt('0'+data.DATA[0].cagua)} UND</span>
+						</div>
+						<div class='form-group row'>
+							<span>Cantidad de Botella Agua Minera Prestada: 0 UND</span>
+						</div>
+						<div class='form-group row'>
+							<span>Direccion: ${data.DATA[0].direccion_cli}</span>
+						</div>
+						<div class='form-group row'>
+							<span>Cliente: ${data.DATA[0].nombres_cli}</span>
+						</div>
+					</div>
+				</div>
+			`;
+			if (data.DATA[0].liquidacion == 1) {
+				$('#mdlfooterTraking').css('display','none');
+			} else {
+				$('#mdlfooterTraking').css('display','');
+				$('#btnfooterTraking').removeAttr('onclick');
+				$('#btnfooterTraking').attr('onclick',`imprim2();liquidarTracking(${id_guitra})`);
+			}
+		} else {
+			content = `
+			<div class='row'>
+				<div class='col'>
+					<span>No esta relacionada con ninguna venta</span>
+				</div>
+			</div>
+			`;
+			$('#mdlfooterTraking').css('display','none');
+		}
+		$('#mdlbodyTraking').html(content);
+		modalShow('mdlTraking');
+	})
+}
+function liquidarTracking(id_guitra) {
+	__ajax('../controllers/comprobantesController.php?op=19','POST','JSON',{'id_guitra' : id_guitra})
+	.done(function(info) {
+		if (info.STATUS == 'OK') {
+			modalHide('mdlTraking');
+			$('#msjopcionesGuiatransportistaOPEN').html(`
+    		<div class="alert alert-success alert-dismissible fade show" role="alert">
+	            <strong>Correcto!</strong> Liquidado correctamente.
+	            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	        </div>
+			`);
+		} else {
+			modalHide('mdlTraking');
+			$('#msjopcionesGuiatransportistaOPEN').html(`
+    		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	            <strong>Advertencia!</strong> Error al liquidar tracking.
+	            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	        </div>
+			`);
 		}
 	})
 }

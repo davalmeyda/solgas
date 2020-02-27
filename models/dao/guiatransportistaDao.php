@@ -37,5 +37,23 @@ class guiatransportistaDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
+	public function guiaTransportistaCOUNT() {
+		$query = "SELECT count(*) FROM guiatransportista";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function guiatransportistaUPDATE($id_guitra) {
+		$query = "UPDATE guiatransportista SET liquidacion=1 WHERE id_guitra='$id_guitra'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function guiatransportista_liquidacion($id_guitra) {
+		$query = "SELECT liquidacion FROM guiatransportista WHERE id_guitra='$id_guitra'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
 }
 ?>

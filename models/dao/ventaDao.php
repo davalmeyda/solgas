@@ -90,6 +90,19 @@ class ventaDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
+	public function ventaDATA_serie_numero($serie_ven,$numero_ven) {
+		$query = "SELECT venta.id_ven, cliente.nombres_cli, cliente.direccion_cli,
+		(SELECT SUM(cantidad_balven) FROM balon_venta WHERE balon_venta.id_ven=venta.id_ven) AS cbalon,
+		(SELECT SUM(cantidad_balven) FROM balon_venta INNER JOIN balon ON balon_venta.id_bal=balon.id_bal WHERE balon_venta.id_ven=venta.id_ven AND balon.tipo_bal='GAS' AND balon.categoria_bal='PREMIUN') AS cbalon_premiun,
+		(SELECT SUM(cantidad_balven) FROM balon_venta INNER JOIN balon ON balon_venta.id_bal=balon.id_bal WHERE balon_venta.id_ven=venta.id_ven AND balon.tipo_bal='GAS' AND balon.categoria_bal='NORMAL') AS cbalon_normal,
+		(SELECT SUM(cantidad_balven) FROM balon_venta INNER JOIN balon ON balon_venta.id_bal=balon.id_bal WHERE balon_venta.id_ven=venta.id_ven AND balon.tipo_bal='AGUA') AS cagua
+		FROM venta
+		INNER JOIN cliente ON venta.id_cli=cliente.id_cli
+		WHERE venta.serie_ven='$serie_ven' AND venta.correlativo_ven='$numero_ven'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
 	public function proformaDATA($id_pro) {
 		$query = "SELECT proforma.id_pro,proforma.serie_ven,proforma.correlativo_ven,proforma.fecini_ven, proforma.fecfin_ven, proforma.tipo_comprobante, proforma.total_ven, proforma.estado_pro, cliente.id_cli, cliente.nombres_cli, cliente.tipdoc_cli, cliente.numdoc_cli, cliente.direccion_cli FROM proforma
 		INNER JOIN cliente ON proforma.id_cli=cliente.id_cli
