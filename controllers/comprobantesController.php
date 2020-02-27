@@ -403,7 +403,9 @@ switch ($op) {
 			$numero_ven = $_POST['numero_ven'];
 			$liquidacion = $objGuiatransportistaDao->guiatransportista_liquidacion($id_guitra);
 			$ventaDATA = $objVentaDao->ventaDATA_serie_numero($serie_ven,$numero_ven);
-			$ventaDATA['DATA'][0]['liquidacion'] = $liquidacion['DATA'][0]['liquidacion'];
+			if (count($ventaDATA['DATA']) > 0) {
+				$ventaDATA['DATA'][0]['liquidacion'] = $liquidacion['DATA'][0]['liquidacion'];
+			}
 			echo json_encode($ventaDATA);
 			exit();
 			break;
