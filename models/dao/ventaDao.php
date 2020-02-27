@@ -28,6 +28,14 @@ class ventaDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
+	public function ventaSELECT_extra($extra) {
+		$query = "SELECT venta.id_ven, venta.tipo_comprobante, venta.serie_ven,venta.correlativo_ven,venta.fecini_ven,venta.tipo_comprobante, venta.total_ven, venta.estado_ven,cliente.id_cli,cliente.nombres_cli,cliente.numdoc_cli FROM venta
+		INNER JOIN cliente ON venta.id_cli=cliente.id_cli
+		WHERE " . $extra . " ORDER BY venta.id_ven DESC";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
 	public function pedidosSELECT($fecha) {
 		$query = "SELECT pedidos.id_ped,pedidos.serie,pedidos.fecini_ped, pedidos.estado_ped, cliente.id_cli,cliente.nombres_cli,cliente.numdoc_cli FROM pedidos 
 		INNER JOIN cliente ON pedidos.id_cli=cliente.id_cli 

@@ -408,12 +408,103 @@ switch ($op) {
 			exit();
 			break;
 		}
-		case 19: {
-				$id_guitra = $_POST['id_guitra'];
-				$response = $objGuiatransportistaDao->guiatransportistaUPDATE($id_guitra);
-				echo json_encode($response);
-				exit();
-				break;
+	case 19: {
+			$id_guitra = $_POST['id_guitra'];
+			$response = $objGuiatransportistaDao->guiatransportistaUPDATE($id_guitra);
+			echo json_encode($response);
+			exit();
+			break;
+		}
+	case 20: {
+			$id_per = $_GET['id_per'];
+			$id_cli = $_GET['id_cli'];
+			$tipo_bal = $_GET['tipo_bal'];
+			$fecha = $_GET['fecha'];
+			if ($tipo_bal == 'AGUA') {
+				if ($id_per != '' && $id_per != 'null' && $id_cli != '' && $id_cli != 'null') {
+					$extra = "venta.id_per='$id_per' AND venta.id_cli='$id_cli' AND 'AGUA' in (SELECT balon.tipo_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				} else if ($id_per != '' && $id_per != 'null' && ($id_cli == '' || $id_cli == 'null')) {
+					$extra = "venta.id_per='$id_per' AND 'AGUA' in (SELECT balon.tipo_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				} else if (($id_per == '' || $id_per == 'null') && $id_cli != '' && $id_cli != 'null') {
+					$extra = "venta.id_cli='$id_cli' AND 'AGUA' in (SELECT balon.tipo_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				} else {
+					$extra = "'AGUA' in (SELECT balon.tipo_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				}
+			} else {
+				if ($id_per != '' && $id_per != 'null' && $id_cli != '' && $id_cli != 'null') {
+					$extra = "venta.id_per='$id_per' AND venta.id_cli='$id_cli' AND '$tipo_bal' in (SELECT balon.categoria_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				} else if ($id_per != '' && $id_per != 'null' && ($id_cli == '' || $id_cli == 'null')) {
+					$extra = "venta.id_per='$id_per' AND '$tipo_bal' in (SELECT balon.categoria_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				} else if (($id_per == '' || $id_per == 'null') && $id_cli != '' && $id_cli != 'null') {
+					$extra = "venta.id_cli='$id_cli' AND '$tipo_bal' in (SELECT balon.categoria_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				} else {
+					$extra = "'$tipo_bal' in (SELECT balon.categoria_bal FROM balon INNER JOIN balon_venta ON balon.id_bal=balon_venta.id_bal WHERE balon_venta.id_ven=venta.id_ven) AND venta.fecini_ven LIKE '$fecha%'";
+				}
 			}
+			$ventaSELECT = $objVentaDao->ventaSELECT_extra($extra);
+			foreach ($ventaSELECT['DATA'] as $list) {
+				echo '<div class="row">';
+					echo '<div class="col-12">';
+						$nfecini_ven = $objBalonDao->NombrarFecha2(substr($list['fecini_ven'], 0, 10)) . ", " .  $objBalonDao->amoldarHora(substr($list['fecini_ven'], 11, 5));
+						$bg = 'rgba(255,255,255,1)';$color = '';
+						if ($list['estado_ven'] == 1) {$bg = 'rgba(220,53,69,0.50)';}
+						if ($list['estado_ven'] == 3) {$bg = 'rgba(255,193,7,0.50)';}
+						if ($list['tipo_comprobante'] == 7) {$color = 'color: #bd2130 !important';}
+						echo '<a class="card" href="javascript:opcionesComprobanteOPEN(' . $list['id_ven'] . ',' . $Stipo_per . ')" style="color: #000;background-color: ' . $bg . '">';
+							echo '<div class="card-header" style="border: 0">';
+								echo '<div class="col-12">';
+							if ($list['tipo_comprobante'] == '1') {
+							echo '<h3 class="card-title">FACTURA ELECTRONICA » ' . $list['serie_ven'] . '-' . $list['correlativo_ven'] . '</h3>';
+							} else if ($list['tipo_comprobante'] == '3') {
+							echo '<h3 class="card-title">BOLETA DE VENTA ELECTRÓNICA » ' . $list['serie_ven'] . '-' . $list['correlativo_ven'] . '</h3>';
+							} else if ($list['tipo_comprobante'] == '7') {
+							echo '<h3 class="card-title">NOTA DE CRÉDITO ELECTRÓNICA » ' . $list['serie_ven'] . '-' . $list['correlativo_ven'] . '</h3>';
+							} else if ($list['tipo_comprobante'] == '8') {
+							echo '<h3 class="card-title">NOTA DE DÉBITO ELECTRÓNICA » ' . $list['serie_ven'] . '-' . $list['correlativo_ven'] . '</h3>';
+							}
+								echo '</div>';
+							echo '</div>';
+							echo '<div class="card-body">';
+								echo '<div class="row">';
+									echo '<div class="col-10">';
+										echo '<div class="col-12">';
+											echo '<span class="fas fa-user-alt"></span> ' . $list['nombres_cli'] . ' (' . $list['numdoc_cli'] . ')';
+										echo '</div>';
+										echo '<div class="col-12">';
+											echo '<span class="fas fa-clock"></span> ' .$nfecini_ven;
+										echo '</div>';
+									echo '</div>';
+									echo '<div class="col-2">';
+										echo '<span style="font-size: 15pt;' . $color . '" class="text-success">S/ <span style="font-size: 20pt;">' . $list['total_ven'] . '</span></span>';
+									echo '</div>';
+								echo '</div>';
+							echo '</div>';
+						echo '</a>';
+					echo '</div>';
+				echo '</div>';
+			}
+			if (count($ventaSELECT['DATA']) <= 0) {
+				echo '<div class="content">
+				<div class="row">
+				  <div class="col">
+					<div class="row">
+					  <div class="col text-center" style="position:relative;">
+						  <div class="col-4 offset-4">
+							<p class="globo"><span>No se encontraron comprobantes realizados en esta fecha</span></p>
+						  </div>
+					  </div>
+					</div>
+					<div class="row">
+					  <div class="col text-center">
+						<img src="../dist/img/avatarkeyfacil.png" width="250">
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>';
+			}
+			exit();
+		break;
+		}
 }
 header("Location:" . $page);

@@ -4,8 +4,8 @@
 
 		public function __construct() {
 			if (!isset($this->con)) {
-                $this->con = new \mysqli('localhost','root','','bdbalon');
-                //$this->con = new \mysqli('localhost','azlxhgqn_balon','GxqpD.Pfkz+P','azlxhgqn_bdbalon');
+                //$this->con = new \mysqli('localhost','root','','bdbalon');
+                $this->con = new \mysqli('localhost','azlxhgqn_balon','GxqpD.Pfkz+P','azlxhgqn_bdbalon');
 				if (mysqli_connect_errno()) {
 					trigger_error("Problemas en la conexion: " . mysqli_connect_errno(), E_USER_ERROR);
 				}

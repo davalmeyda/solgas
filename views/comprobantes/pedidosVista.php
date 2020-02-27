@@ -62,7 +62,7 @@
           <div class="row">
             <div class="col text-center" style="position:relative;">
                 <div class="col-4 offset-4">
-                  <p class="globo"><span>No se encontraron proformas realizadas en esta fecha</span></p>
+                  <p class="globo"><span>No se encontraron pedidos realizados en esta fecha</span></p>
                 </div>
             </div>
           </div>

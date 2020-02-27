@@ -101,7 +101,6 @@
 			if(isset($_GET['search']) && strlen($_GET['search']) > 0) {
 				$parametro = $_GET['search'];
 				$data = $objPersonalDao->personalSERCH($parametro);
-
 				if($data['STATUS'] == 'OK'){
 					foreach ($data['DATA'] as $registros) {
 						$row_array['id'] = $registros['id_per'];

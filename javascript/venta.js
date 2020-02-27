@@ -907,3 +907,16 @@ function RegistroCliente(e) {
       }
 	})
 }
+function toggleFiltro(fecha) {
+	if ($('#divFiltro').is(":visible")) {
+		ajaxCompuesto('content','../controllers/comprobantesController.php',3,`fecha=${fecha}`);
+	} else {
+		$('#divFiltro').toggle();
+	}
+}
+function filtrarVentas(fecha) {
+	var id_per = $('#id_per').val();
+	var id_cli = $('#id_cli').val();
+	var tipo_bal = $('#tipo_bal').val();
+	ajaxCompuesto('contentVentas','../controllers/comprobantesController.php',20,`id_per=${id_per}&id_cli=${id_cli}&tipo_bal=${tipo_bal}&fecha=${fecha}`);
+}

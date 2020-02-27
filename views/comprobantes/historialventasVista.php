@@ -17,7 +17,10 @@
           	</div><!-- /.col -->
           	<div class="col-sm-6">
             	<div class="breadcrumb float-sm-right" style="font-size: 1.4rem">
-              		<span class="fas fa-chevron-left" onclick="ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha=<?= $fechaB ?>')"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <?php if ($Stipo_per == "1" || $Stipo_per == "2") { ?>
+                  <button onclick="toggleFiltro('<?= $fecha ?>')" class="btn btn-outline-warning btn-xs">&nbsp;&nbsp;&nbsp;FILTRO&nbsp;&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <?php } ?>
+                  <span class="fas fa-chevron-left" onclick="ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha=<?= $fechaB ?>')"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <input type="text" value="<?= $fecha ?>" readonly id="theDate" style="display: none" onchange="ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha='+this.value)">
                   <span class="fas fa-calendar" onclick="displayCalendar(document.getElementById('theDate'),'yyyy-mm-dd',this);"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               		<span class="fas fa-chevron-right" onclick="ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha=<?= $fechaA ?>')"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -49,7 +52,28 @@
 </div>
 <div id="subcontent" class="content">
 	<div class="container-fluid">
+    <div id="divFiltro" class="row p-2 pb-3" style="display: none">
+      <div class="col">
+        <label>Personal</label>
+        <select id="id_per" class="form-control" onchange="filtrarVentas('<?= $fecha ?>')">
+        <option value="">----</option>
+        </select>
+      </div>
+      <div class="col">
+        <label>Cliente</label>
+        <select id="id_cli" class="form-control" onchange="filtrarVentas('<?= $fecha ?>')"></select>
+      </div>
+      <div class="col">
+        <label>Tipo de Balones</label>
+        <select id="tipo_bal" class="form-control" onchange="filtrarVentas('<?= $fecha ?>')">
+          <option value="PREMIUN">GAS PREMIUN</option>
+          <option value="NORMAL">GAS NORMAL</option>
+          <option value="AGUA">AGUA</option>
+        </select>
+      </div>
+    </div>
     <div id="msjhistorialventas"></div>
+    <div id='contentVentas'>
   <?php foreach ($ventaSELECT['DATA'] as $list) { ?>
 	    <div class="row">
 	    	<div class="col-12">
@@ -92,25 +116,26 @@
 	    </div>
 	<?php } ?>
   <?php if (count($ventaSELECT['DATA']) <= 0) { ?>
-    <div class="content">
-      <div class="row">
-        <div class="col">
-          <div class="row">
-            <div class="col text-center" style="position:relative;">
-                <div class="col-4 offset-4">
-                  <p class="globo"><span>No se encontraron comprobantes realizados en esta fecha</span></p>
-                </div>
+      <div class="content">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col text-center" style="position:relative;">
+                  <div class="col-4 offset-4">
+                    <p class="globo"><span>No se encontraron comprobantes realizados en esta fecha</span></p>
+                  </div>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col text-center">
-              <img src="../dist/img/avatarkeyfacil.png" width="250">
+            <div class="row">
+              <div class="col text-center">
+                <img src="../dist/img/avatarkeyfacil.png" width="250">
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   <?php } ?>
+	  </div>
 	</div>
 </div>
 <div class="modal fade" id="mdlBuscarComprobante">
@@ -233,3 +258,43 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<script>
+  $('#id_per').select2({
+    placeholder: 'Buscar Personal',
+    ajax: {
+      url: "../controllers/buscarController.php?op=4",
+      dataType: 'json',
+      quietMillis: 100,
+      data: function (params) {
+        var query = {
+          search: params.term,
+          type: 'public'
+        }
+        // Query parameters will be ?search=[term]&type=public
+        return query;
+      },
+      results: function (data, page) {
+        return { results: data.results };
+      }
+    },
+  });
+  $('#id_cli').select2({
+    placeholder: 'Buscar Cliente',
+    ajax: {
+      url: "../controllers/buscarController.php?op=1",
+      dataType: 'json',
+      quietMillis: 100,
+      data: function (params) {
+        var query = {
+          search: params.term,
+          type: 'public'
+        }
+        // Query parameters will be ?search=[term]&type=public
+        return query;
+      },
+      results: function (data, page) {
+        return { results: data.results };
+      }
+    },
+  });
+</script>
