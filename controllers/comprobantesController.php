@@ -423,12 +423,12 @@ switch ($op) {
 			$tipo_bal = $_POST['tipo_bal'];
 			$fecha = $_GET['fecha'];
 			$optradio = $_POST['optradio'];
-			if ($id_per == 'null' || $id_per=='') {
+			if ($id_per == 'null' || $id_per=='' || $id_per==0) {
 				$sqlId_per = "''=''";
 			} else {
 				$sqlId_per = "venta.id_per='$id_per'";
 			}
-			if ($id_cli == 'null' || $id_cli=='') {
+			if ($id_cli == 'null' || $id_cli=='' || $id_cli==0) {
 				$sqlId_cli = "''=''";
 			} else {
 				$sqlId_cli = "venta.id_cli='$id_cli'";
