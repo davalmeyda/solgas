@@ -55,3 +55,10 @@ function addZero(i) {
     }
     return i;
 }
+function modalDestroy() {
+	$('body').removeAttr('class');
+	$('body').attr('class','sidebar-mini');
+	$('body').removeAttr('style');
+	$('body').attr('style','height: auto;');
+	$('.modal-backdrop').remove();
+}

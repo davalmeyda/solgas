@@ -18,7 +18,7 @@
           	<div class="col-sm-6">
             	<div class="breadcrumb float-sm-right" style="font-size: 1.4rem">
                 <?php if ($Stipo_per == "1" || $Stipo_per == "2") { ?>
-                  <button onclick="toggleFiltro('<?= $fecha ?>')" class="btn btn-outline-warning btn-xs">&nbsp;&nbsp;&nbsp;FILTRO&nbsp;&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button onclick="modalShow('mdlFiltro')" class="btn btn-outline-warning btn-xs">&nbsp;&nbsp;&nbsp;FILTRO&nbsp;&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <?php } ?>
                   <span class="fas fa-chevron-left" onclick="ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha=<?= $fechaB ?>')"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <input type="text" value="<?= $fecha ?>" readonly id="theDate" style="display: none" onchange="ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha='+this.value)">
@@ -52,26 +52,6 @@
 </div>
 <div id="subcontent" class="content">
 	<div class="container-fluid">
-    <div id="divFiltro" class="row p-2 pb-3" style="display: none">
-      <div class="col">
-        <label>Personal</label>
-        <select id="id_per" class="form-control" onchange="filtrarVentas('<?= $fecha ?>')">
-        <option value="">----</option>
-        </select>
-      </div>
-      <div class="col">
-        <label>Cliente</label>
-        <select id="id_cli" class="form-control" onchange="filtrarVentas('<?= $fecha ?>')"></select>
-      </div>
-      <div class="col">
-        <label>Tipo de Balones</label>
-        <select id="tipo_bal" class="form-control" onchange="filtrarVentas('<?= $fecha ?>')">
-          <option value="PREMIUN">GAS PREMIUN</option>
-          <option value="NORMAL">GAS NORMAL</option>
-          <option value="AGUA">AGUA</option>
-        </select>
-      </div>
-    </div>
     <div id="msjhistorialventas"></div>
     <div id='contentVentas'>
   <?php foreach ($ventaSELECT['DATA'] as $list) { ?>
@@ -252,6 +232,70 @@
         </button>
       </div>
       <div class="modal-body" id="mdlbodyVerOpcionesVentas">
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="mdlFiltro">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h4 class="modal-title">Comprobante electrónico</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="frmFiltro" class="p-2 pb-3" onsubmit="filtrarVentas(event,'<?= $fecha ?>')">
+          <div class="row">
+            <div class="col">
+              <label>Cliente</label>
+              <select id="id_cli" name="id_cli" class="form-control input-sm">
+                <option value="">----</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>Trabajadores</label>
+              <select id="id_per" name="id_per" class="form-control input-sm">
+                <option value="">----</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>Tipo de Balones</label>
+              <select id="tipo_bal" name="tipo_bal" class="form-control input-sm">
+                <option value="">TODOS</option>
+                <option value="PREMIUN">GAS PREMIUN</option>
+                <option value="NORMAL">GAS NORMAL</option>
+                <option value="AGUA">AGUA</option>
+              </select>
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col">
+              <div class="radio">
+                <label><input type="radio" name="optradio" value="" checked>Todos</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="radio">
+                <label><input type="radio" name="optradio" value="1">Credito</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="radio">
+                <label><input type="radio" name="optradio" value="0">Contato</label>
+              </div>
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-info">Aceptar</button>
+            </div>
+            <div class="col">
+              <button type="button" onclick="filtrarVentasReset('<?= $fecha ?>')" class="btn btn-info">Cancelar</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <!-- /.modal-content -->

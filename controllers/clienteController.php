@@ -131,12 +131,16 @@
 		}
 		case 7: {
 			if ($Stipo_per == '1' && $Stipo_per == '2') {
-				$creditoLIST = $objClienteDao->creditoLIST();
+				$creditoLIST_cancelado = $objClienteDao->creditoLIST_cancelado();
+				$creditoLIST_vigente = $objClienteDao->creditoLIST_vigente();
 			} else {
-				$creditoLIST = $objClienteDao->creditoLIST_idper($Sid_per);
+				$creditoLIST_cancelado = $objClienteDao->creditoLIST_cancelado_idper($Sid_per);
+				$creditoLIST_vigente = $objClienteDao->creditoLIST_vigente_idper($Sid_per);
 			}
-			unset($_SESSION['creditoLIST']);
-			$_SESSION['creditoLIST'] = $creditoLIST;
+			unset($_SESSION['creditoLIST_cancelado']);
+			unset($_SESSION['creditoLIST_vigente']);
+			$_SESSION['creditoLIST_cancelado'] = $creditoLIST_cancelado;
+			$_SESSION['creditoLIST_vigente'] = $creditoLIST_vigente;
 			$page = "../views/cliente/frmCreditos.php";
 			break;
 		}

@@ -1,6 +1,8 @@
 <?php
 session_start();
 $creditoLIST = $_SESSION['creditoLIST'];
+$creditoLIST_vigente = $_SESSION['creditoLIST_vigente'];
+$creditoLIST_cancelado = $_SESSION['creditoLIST_cancelado'];
 ?>
 <div class="content-header">
 	<div class="container-fluid">
@@ -21,62 +23,103 @@ $creditoLIST = $_SESSION['creditoLIST'];
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<div class="card">
-					<div class="card-header">
-						<div class="row">
-							<div class="col-10">
-								<h3 class="card-title">LISTA DE CREDITOS</h3>
-							</div>
-							<!-- Icono Exportar-->
-							<div class="col-2">
-								<button type="button" onclick="mdExportarOPEN()" class="btn btn-primary" data-toggle="modal">
-									Exportar
-								</button>
-							</div>
-						</div>
-					</div>
+				<div class="card card-tabs">
+	            	<div class="card-header p-0 pt-1 border-bottom-0">
+		                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+		                  <li class="nav-item">
+		                    <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">VIGENTES</a>
+		                  </li>
+		                  <li class="nav-item">
+		                    <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">CANCELADOS</a>
+		                  </li>
+		                </ul>
+		            </div>
 					<div class="card-body">
 						<div class="row">
 							<div id="mensajeCreditos" class="col-12 mt-2"></div>
 						</div>
-						<div class="table-responsive">
-							<table id="tblCreditoList" class="table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th class="text-center">ID</th>
-										<th class="text-center">FECHA GENERADA</th>
-										<th class="text-center">FECHA LIMITE</th>
-										<th>CLIENTE</th>
-										<th>COMPROBANTE</th>
-										<th class="text-center">TOTAL VENTA</th>
-										<th class="text-center">TOTAL PAGO</th>
-										<th>LIQUIDAR</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php $i = 0;
-									foreach ($creditoLIST['DATA'] as $list) { ?>
-										<tr>
-											<td class="text-center"><?= $list['id_ven'] ?></td>
-											<td class="text-center"><?= date('d/m/Y', strtotime($list['fecini_ven'])) ?></td>
-											<td class="text-center"><?= date('d/m/Y', strtotime($list['fecfin_ven'])) ?></td>
-											<td><?= $list['nombres_cli'] ?></td>
-											<?php if ($list['tipo_comprobante'] == 1) { ?>
-												<td>FACTURA <?= $list['comprobante'] ?></td>
-											<?php } else { ?>
-												<td>BOLETA <?= $list['comprobante'] ?></td>
-											<?php } ?>
-											<td class="text-center">S/ <?= $list['total_ven'] ?></td>
-											<td class="text-center">S/ <?= $list['pago_ven'] ?></td>
-											<td class="text-center">
-												<button onclick="mdlLiquidarOPEN('<?= $list['total_ven'] ?>','<?= $list['pago_ven'] ?>',<?= $list['id_ven'] ?>)" class="btn btn-outline-warning btn btn-sm"><span class="fas fa-money-check-alt"></span></button>
-												<a href="../dist/comprobantes/<?= $list['comprobante'] ?>.pdf" target="_BLANK" class="btn btn-outline-info btn btn-sm"><span class="fas fa-eye"></span></a>
-											</td>
-										</tr>
-									<?php $i++;
-									} ?>
-								</tbody>
-							</table>
+						<div class="tab-content" id="custom-tabs-two-tabContent">
+							<div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+					        	<div class="table-responsive">
+									<table id="tblCreditoList" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th class="text-center">ID</th>
+												<th class="text-center">FECHA GENERADA</th>
+												<th class="text-center">FECHA LIMITE</th>
+												<th>CLIENTE</th>
+												<th>COMPROBANTE</th>
+												<th class="text-center">TOTAL VENTA</th>
+												<th class="text-center">TOTAL PAGO</th>
+												<th>LIQUIDAR</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php $i = 0;
+											foreach ($creditoLIST_vigente['DATA'] as $list) { ?>
+												<tr>
+													<td class="text-center"><?= $list['id_ven'] ?></td>
+													<td class="text-center"><?= date('d/m/Y', strtotime($list['fecini_ven'])) ?></td>
+													<td class="text-center"><?= date('d/m/Y', strtotime($list['fecfin_ven'])) ?></td>
+													<td><?= $list['nombres_cli'] ?></td>
+													<?php if ($list['tipo_comprobante'] == 1) { ?>
+														<td>FACTURA <?= $list['comprobante'] ?></td>
+													<?php } else { ?>
+														<td>BOLETA <?= $list['comprobante'] ?></td>
+													<?php } ?>
+													<td class="text-center">S/ <?= $list['total_ven'] ?></td>
+													<td class="text-center">S/ <?= $list['pago_ven'] ?></td>
+													<td class="text-center">
+														<button onclick="mdlLiquidarOPEN('<?= $list['total_ven'] ?>','<?= $list['pago_ven'] ?>',<?= $list['id_ven'] ?>)" class="btn btn-outline-warning btn btn-sm"><span class="fas fa-money-check-alt"></span></button>
+														<a href="../dist/comprobantes/<?= $list['comprobante'] ?>.pdf" target="_BLANK" class="btn btn-outline-info btn btn-sm"><span class="fas fa-eye"></span></a>
+													</td>
+												</tr>
+											<?php $i++;
+											} ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+					        	<div class="table-responsive">
+									<table id="tblCreditoList" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th class="text-center">ID</th>
+												<th class="text-center">FECHA GENERADA</th>
+												<th>CLIENTE</th>
+												<th>COMPROBANTE</th>
+												<th>USUARIO COBRO</th>
+												<th class="text-center">FECHA CANCELACION</th>
+												<th class="text-center">TOTAL PAGO</th>
+												<th>LIQUIDAR</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php $i = 0;
+											foreach ($creditoLIST_cancelado['DATA'] as $list) { ?>
+												<tr>
+													<td class="text-center"><?= $list['id_ven'] ?></td>
+													<td class="text-center"><?= date('d/m/Y', strtotime($list['fecini_ven'])) ?></td>
+													<td><?= $list['nombres_cli'] ?></td>
+													<?php if ($list['tipo_comprobante'] == 1) { ?>
+														<td>FACTURA <?= $list['comprobante'] ?></td>
+													<?php } else { ?>
+														<td>BOLETA <?= $list['comprobante'] ?></td>
+													<?php } ?>
+													<td><?= $list['cobrador'] ?></td>
+													<td class="text-center"><?= date('d/m/Y', strtotime($list['fecha_pago'])) ?></td>
+													<td class="text-center">S/ <?= $list['pago_ven'] ?></td>
+													<td class="text-center">
+														<a href="../dist/comprobantes/<?= $list['comprobante'] ?>.pdf" target="_BLANK" class="btn btn-outline-info btn btn-sm"><span class="fas fa-eye"></span></a>
+													</td>
+												</tr>
+											<?php $i++;
+											} ?>
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -183,7 +226,7 @@ $creditoLIST = $_SESSION['creditoLIST'];
 </div>
 <script>
 	$(function() {
-		$("#tblCreditoList").DataTable({
+		$("table").DataTable({
 			"order": [
 				[0, "desc"]
 			]

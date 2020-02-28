@@ -10,20 +10,38 @@ class clienteDao {
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
-	public function creditoLIST() {
-		$query = "SELECT id_ven, fecini_ven,fecfin_ven, tipo_comprobante, CONCAT(serie_ven,'-',correlativo_ven) AS comprobante, tipo_pago, pago_ven, total_ven, cliente.id_cli, cliente.nombres_cli
+	public function creditoLIST_cancelado() {
+		$query = "SELECT id_ven, fecini_ven,fecfin_ven, tipo_comprobante, CONCAT(serie_ven,'-',correlativo_ven) AS comprobante, tipo_pago, pago_ven, total_ven, cliente.id_cli, cliente.nombres_cli, (SELECT CONCAT(nombre_per,' ',apellido_per) FROM pago INNER JOIN personal ON pago.id_per=personal.id_per WHERE pago.id_ven=venta.id_ven ORDER BY id_pago DESC LIMIT 1) AS cobrador, (SELECT fecha_pago FROM pago INNER JOIN personal ON pago.id_per=personal.id_per WHERE pago.id_ven=venta.id_ven ORDER BY id_pago DESC LIMIT 1) AS fecha_pago
 			FROM venta
 			INNER JOIN cliente ON venta.id_cli=cliente.id_cli
-			WHERE (tipo_comprobante=1 OR tipo_comprobante=3) AND tipo_pago=1";
+			WHERE (tipo_comprobante=1 OR tipo_comprobante=3) AND tipo_pago=1 AND pago_ven=total_ven";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
 	}
-	public function creditoLIST_idper($id_per) {
+	public function creditoLIST_vigente() {
 		$query = "SELECT id_ven, fecini_ven,fecfin_ven, tipo_comprobante, CONCAT(serie_ven,'-',correlativo_ven) AS comprobante, tipo_pago, pago_ven, total_ven, cliente.id_cli, cliente.nombres_cli
 			FROM venta
 			INNER JOIN cliente ON venta.id_cli=cliente.id_cli
-			WHERE (tipo_comprobante=1 OR tipo_comprobante=3) AND tipo_pago=1 AND venta.id_per='$id_per'";
+			WHERE (tipo_comprobante=1 OR tipo_comprobante=3) AND tipo_pago=1 AND pago_ven<total_ven";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function creditoLIST_cancelado_idper($id_per) {
+		$query = "SELECT id_ven, fecini_ven,fecfin_ven, tipo_comprobante, CONCAT(serie_ven,'-',correlativo_ven) AS comprobante, tipo_pago, pago_ven, total_ven, cliente.id_cli, cliente.nombres_cli, (SELECT CONCAT(nombre_per,' ',apellido_per) FROM pago INNER JOIN personal ON pago.id_per=personal.id_per WHERE pago.id_ven=venta.id_ven ORDER BY id_pago DESC LIMIT 1) AS cobrador, (SELECT fecha_pago FROM pago INNER JOIN personal ON pago.id_per=personal.id_per WHERE pago.id_ven=venta.id_ven ORDER BY id_pago DESC LIMIT 1) AS fecha_pago
+			FROM venta
+			INNER JOIN cliente ON venta.id_cli=cliente.id_cli
+			WHERE (tipo_comprobante=1 OR tipo_comprobante=3) AND tipo_pago=1 AND pago_ven=total_ven AND venta.id_per='$id_per'";
+		$objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+	}
+	public function creditoLIST_vigente_idper($id_per) {
+		$query = "SELECT id_ven, fecini_ven,fecfin_ven, tipo_comprobante, CONCAT(serie_ven,'-',correlativo_ven) AS comprobante, tipo_pago, pago_ven, total_ven, cliente.id_cli, cliente.nombres_cli
+			FROM venta
+			INNER JOIN cliente ON venta.id_cli=cliente.id_cli
+			WHERE (tipo_comprobante=1 OR tipo_comprobante=3) AND tipo_pago=1 AND pago_ven<total_ven AND venta.id_per='$id_per'";
 		$objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;

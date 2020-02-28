@@ -827,13 +827,6 @@ function notacreditoGENERATE(id_ven) {
 		}
 	});
 }
-function modalDestroy() {
-	$('body').removeAttr('class');
-	$('body').attr('class','sidebar-mini');
-	$('body').removeAttr('style');
-	$('body').attr('style','height: auto;');
-	$('.modal-backdrop').remove();
-}
 function proforma() {
 	if( $('#ckxProforma').prop('checked') ) {
 		$('#divFecfin').css('display','none')
@@ -907,16 +900,22 @@ function RegistroCliente(e) {
       }
 	})
 }
-function toggleFiltro(fecha) {
-	if ($('#divFiltro').is(":visible")) {
-		ajaxCompuesto('content','../controllers/comprobantesController.php',3,`fecha=${fecha}`);
-	} else {
-		$('#divFiltro').toggle();
-	}
+function filtrarVentas(event,fecha) {
+	event.preventDefault();
+    var frmFiltro = document.getElementById('frmFiltro');
+	var data = new FormData(frmFiltro);
+	fetch('../controllers/comprobantesController.php?op=20&fecha='+fecha,{
+		method: 'POST',
+		body: data
+	})
+	.then(res => res.json())
+	.then(data => {
+		$('#contentVentas').html(data);
+		modalHide('mdlFiltro');
+	})
 }
-function filtrarVentas(fecha) {
-	var id_per = $('#id_per').val();
-	var id_cli = $('#id_cli').val();
-	var tipo_bal = $('#tipo_bal').val();
-	ajaxCompuesto('contentVentas','../controllers/comprobantesController.php',20,`id_per=${id_per}&id_cli=${id_cli}&tipo_bal=${tipo_bal}&fecha=${fecha}`);
+function filtrarVentasReset(fecha) {
+	modalHide('mdlFiltro');
+	modalDestroy();
+	ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha='+fecha);
 }
