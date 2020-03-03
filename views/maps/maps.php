@@ -78,6 +78,14 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 											<button type="button" onclick="marcar_my_location();" id="btnUbicaionSELECT" class="btn btn-info btn-block" disabled>Elegir ubicacion - Cliente</button>
 										</td>
 									</tr>
+									<tr>
+										<td colspan="2">
+											<input id="direccion" type="text" placeholder="Digitar direccion" class="form-control">
+										</td>
+										<td>
+											<button type="button" onclick="localizar('map',$('#direccion').val())" id="btnUbicaionSEARCH" class="btn btn-info btn-block">Buscar</button>
+										</td>
+									</tr>
 								</table>
 							</div>
 							<div class="row">

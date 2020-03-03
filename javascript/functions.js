@@ -35,22 +35,22 @@ function marcar_my_location(){
       		lat: position.coords.latitude,
       		lng: position.coords.longitude
     	};
-    	marker = new google.maps.Marker({
+    	markerMove = new google.maps.Marker({
 		    map: map,
 		    draggable: true,
 		    animation: google.maps.Animation.DROP,
 		    position: pos
 		  });
-        marker.addListener("dblclick", function() {
+      markerMove.addListener("dblclick", function() {
             //escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
           $('#lat_cli').val(this.getPosition().lat());
   		    $('#lng_cli').val(this.getPosition().lng());
-            marker.setMap(null)
+          markerMove.setMap(null)
             $('#btnUbicaionSELECT').removeAttr('disabled');
             $('#btnUbicaionSAVE').attr('disabled','true');
         });  
             
-        marker.addListener( 'dragend', function (event) {
+        markerMove.addListener( 'dragend', function (event) {
             //escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
           $('#lat_cli').val(this.getPosition().lat());
   		    $('#lng_cli').val(this.getPosition().lng());
@@ -210,17 +210,15 @@ function guardar_ubi(){
     })
 }
 function markerREMOVE(lat_cli, lng_cli) {
-    console.log(lat_cli, lng_cli)
   var pos = {
     lat: parseFloat(lat_cli),
     lng: parseFloat(lng_cli)
   };
-  marker = new google.maps.Marker({
+  markerRemove = new google.maps.Marker({
     map: map,
-    draggable: true,
     position: pos
   });
-  //setTimeout(function(){marker.setMap(null);alert('elimindo'+lat_cli+' + '+lng_cli)},1);
+  setTimeout(function(){markerRemove.setMap(null);},1);
 }
 function guardar_ubiRepartidor(id_per, contador) {
   var i = 1 + parseInt(contador);
@@ -738,4 +736,47 @@ function mdlMapaSHOW(id_repmap,lat_ori,lng_ori,lat_des,lng_des) {
   mdlVerrepartidorMaps(id_repmap);
   mdldraw_rute_mapREPARTIDOR(lat_ori,lng_ori,lat_des,lng_des);
   modalShow('mdlMapa');
+}
+function localizar(elemento,direccion) {
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition (
+      function(position){
+        $('#btnUbicaionSELECT').attr('disabled','true');
+        $('#btnUbicaionSAVE').removeAttr('disabled');
+        $('#lat_cli').val(position.coords.latitude);
+        $('#lng_cli').val(position.coords.longitude);
+        console.log(elemento+'-'+direccion);
+          var geocoder = new google.maps.Geocoder();
+          
+          geocoder.geocode({'address': direccion}, function(results, status) {
+            if (status === 'OK') {
+              var resultados = results[0].geometry.location,
+                resultados_lat = resultados.lat(),
+                resultados_long = resultados.lng();
+              
+              map.setCenter(results[0].geometry.location);
+              var markerSearch = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                position: results[0].geometry.location
+              });
+              markerSearch.addListener( 'dragend', function (event) {
+                  //escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
+                $('#lat_cli').val(this.getPosition().lat());
+                $('#lng_cli').val(this.getPosition().lng());
+              });
+            } else {
+              var mensajeError = "";
+              if (status === "ZERO_RESULTS") {
+                mensajeError = "No hubo resultados para la dirección ingresada.";
+              } else if (status === "OVER_QUERY_LIMIT" || status === "REQUEST_DENIED" || status === "UNKNOWN_ERROR") {
+                mensajeError = "Error general del mapa.";
+              } else if (status === "INVALID_REQUEST") {
+                mensajeError = "Error de la web. Contacte con Name Agency.";
+              }
+              alert(mensajeError);
+            }
+          });
+      });
+  }
 }
