@@ -388,6 +388,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="../dist/js/demo.js"></script>
   <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyDpVrLAddgFJRKLa4PMB98J7q0TiN6LmKM"></script>
   <script type="text/javascript" src="../javascript/functions.js"></script>
+  <script type="text/javascript" src="../javascript/maps.js"></script>
   <script>
     <?php if ($Stipo_per == '1' || $Stipo_per == '2') { ?>
       CargarNotificacionesAdmin();

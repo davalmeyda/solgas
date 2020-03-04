@@ -694,15 +694,9 @@
 				$fecfin = $_POST['fecfin'];
 				$fecfin_ven = date("m-d-Y",strtotime(date('Y-m-d')."+ ".$fecfin." days"));
 				$moneda_ven = 1;
-				$tipdoc_cli = $_POST['tipdoc_cli'];
-				if ($tipdoc_cli == 1) {
-					$tipo_comprobante = '03';
-				}
-				if ($tipdoc_cli == 6) {
-					$tipo_comprobante = '01';
-				}
+				$tipo_comprobante = '03';
 				$tipo_operacion = '0101';
-				$serie_ven = $_POST['serie'];
+				$serie_ven = 'BP01';
 				$correlativo = $objVentaDao->comprobanteCOUNT($tipo_comprobante);
 				$correlativo_ven = $correlativo['DATA'][0]['count(*)+1'];
 				$gravado_ven = $_POST['gravado_ven'];
@@ -796,7 +790,7 @@
 		        } else {
 		            //Mostramos los errores si los hay
 		            $response['STATUS'] = 'ERROR';
-		            $response['ERROR'] = "<strong>ERROR!</strong> No se pudo registrar la Venta. " . $leer_respuesta['errors'];
+		            $response['ERROR'] = "<strong>ERROR!</strong> No se pudo registrar la Venta.";
 		        }
 		        echo json_encode($response);
 			}

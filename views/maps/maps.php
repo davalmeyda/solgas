@@ -1,7 +1,8 @@
 <?php
 session_start();
 $Stipo_per = $_SESSION['TIPO_PER'];
-$Sid_per = $_SESSION['ID_PER']; ?>
+$Sid_per = $_SESSION['ID_PER'];
+?>
 <div class="content-header">
 	<div class="container-fluid">
 		<div class="row mb-2">
@@ -22,34 +23,28 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
-					<?php
-					if ($Stipo_per == '1' || $Stipo_per == '2') {
-					?>
+					<?php if ($Stipo_per == '1' || $Stipo_per == '2') { ?>
 						<div class="card-header">
 							<div class="col-12">
 								<h3 class="card-title">Vista de mapa - Administrador</h3>
 							</div>
-							<!--<div class="col-12 text-right">
-		<button onclick="ajaxPagina('subcontent','./personal/frmPersonalINSERT.php');" class="btn btn-primary btn-sm">AGREGAR PERSONAL</button>
-	</div>-->
+							<div class="col-12 text-right">
+								<button id="btn-verRepartidores" onclick="ver_repartidores(1);" class="btn btn-info btn-sm">MOSTRAR</button>
+							</div>
 						</div>
 						<div class="card-body">
 							<div class="row">
-								<div class="col" id="msjMaps">
-
-								</div>
+								<div class="col" id="msjMaps"></div>
 							</div>
 							<div class="container">
-								<table class="table-elements">
-									<tr>
-										<td>
-											<input type="text" placeholder="Latitud repartidor" id="my_lat" class="form-control" readonly>
-										</td>
-										<td>
-											<input type="text" placeholder="Longitud repartidor" id="my_lng" class="form-control" readonly>
-										</td>
-									</tr>
-								</table>
+								<div class="row">
+									<div class="col">
+									</div>
+									<div class="col">
+									</div>
+								</div>
+								<input id="my_lat" type="hidden">
+								<input id="my_lng" type="hidden">
 								<div class="map" id="map">
 
 								</div>
@@ -110,6 +105,16 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 								</div>
 							</div>
 						</div>
+						<div class="modal fade" id="mdlInfoRepartidor" style="top: 30% !important;">
+							<div class="modal-dialog modal-sm">
+								<div class="modal-content">
+									<div class="modal-body" id="mdlbodyInfoRepartidor">
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
 						<div class="modal fade" id="mdlAsignarRuta">
 							<div class="modal-dialog modal-md">
 								<div class="modal-content">
@@ -160,20 +165,11 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 						</div>
 						<script type="text/javascript">
 							start_map();
-							ver_repartidores();
+							ver_repartidores(0);
 							start_mdlmap();
-							fetch('../controllers/clienteController.php?op=6', {
-									method: 'POST'
-								})
-								.then(res => res.json())
-								.then(data => {
-									var id_cli = document.getElementById('id_cli');
-									var listcliente = '<option value="0">------</option>';
-									for (var i in data.DATA) {
-										listcliente += `<option value="${data.DATA[i].id_cli}">${data.DATA[i].nombres_cli}</option>`;
-									}
-									id_cli.innerHTML = listcliente;
-								})
+						<?php if (isset($_GET['id_cli'])) { ?>
+							draw_rute(<?= $_GET['id_cli'] ?>);
+						<?php } ?>
 							fetch('../controllers/mapsController.php?op=7', {
 									method: 'POST'
 								})
@@ -183,15 +179,15 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 									var listRutasmaps = '';
 									for (var i in data.DATA) {
 										listRutasmaps += `
-				<tr>
-					<td>${parseInt(i)+1}</td>
-					<td>${data.DATA[i].nombres_per}</td>
-					<td>${data.DATA[i].nombres_cli}</td>
-					<td>${data.DATA[i].nombre_ven}</td>
-					<td>${data.DATA[i].nfecha_rutmap}</td>
-					<td><button class="btn btn-outline-info btn-sm" onclick="mdlMapaSHOW(${data.DATA[i].id_repmap},${data.DATA[i].lat_ori},${data.DATA[i].lng_ori},${data.DATA[i].lat_des},${data.DATA[i].lng_des})"><span class="fas fa-eye"></span></button></td>
-				</tr>
-			`;
+											<tr>
+												<td>${parseInt(i)+1}</td>
+												<td>${data.DATA[i].nombres_per}</td>
+												<td>${data.DATA[i].nombres_cli}</td>
+												<td>${data.DATA[i].nombre_ven}</td>
+												<td>${data.DATA[i].nfecha_rutmap}</td>
+												<td><button class="btn btn-outline-info btn-sm" onclick="mdlMapaSHOW(${data.DATA[i].id_repmap},${data.DATA[i].lat_ori},${data.DATA[i].lng_ori},${data.DATA[i].lat_des},${data.DATA[i].lng_des})"><span class="fas fa-eye"></span></button></td>
+											</tr>
+										`;
 									}
 									// AGREGO LA PAGINACION Y EL ORDEN
 									$(function() {
@@ -232,8 +228,8 @@ $Sid_per = $_SESSION['ID_PER']; ?>
 								<h3 class="card-title">Vista de mapa - Empleado</h3>
 							</div>
 							<!--<div class="col-12 text-right">
-		<button onclick="ajaxPagina('subcontent','./personal/frmPersonalINSERT.php');" class="btn btn-primary btn-sm">AGREGAR PERSONAL</button>
-	</div>-->
+								<button onclick="ajaxPagina('subcontent','./personal/frmPersonalINSERT.php');" class="btn btn-primary btn-sm">AGREGAR PERSONAL</button>
+							</div>-->
 						</div>
 						<div class="card-body">
 							<div class="row">

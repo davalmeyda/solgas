@@ -5,12 +5,7 @@ var directionsDisplay = new google.maps.DirectionsRenderer({polylineOptions:{str
 var directionsService = new google.maps.DirectionsService();
 
 
-function start_map(){
-	map = new google.maps.Map(document.getElementById('map'), {
-  	center: {lat: america_lat, lng: america_lng},
-  	zoom: 11
-	});
-}
+
 function centermap(lat,lng) {
   const center = new google.maps.LatLng(lat, lng);
   window.map.panTo(center);
@@ -98,9 +93,14 @@ function marcar_location_cliente(lat, lng) {
 }
 
 
-function draw_rute(){
-  var id_cli = $('#id_cli').val();
-	var my_lat = $('#my_lat').val();
+function draw_rute(getId_cli){
+  var id_cli = '';
+  if (getId_cli ===  undefined) {
+    id_cli = $('#id_cli').val();
+  } else {
+    id_cli = getId_cli;
+  }
+  var my_lat = $('#my_lat').val();
   var my_lng = $('#my_lng').val();
   var lat_cliOLD = $('#lat_cli').val();
   var lng_cliOLD = $('#lng_cli').val();
@@ -108,6 +108,9 @@ function draw_rute(){
   .done(function(data) {
     if (data.STATUS == 'OK') {
       if (data.DATA.length > 0) {
+        if (getId_cli !=  undefined) {
+          $('#id_cli').append(`<option value="${data.DATA[0].id_cli}">${data.DATA[0].nombres_cli}</option>`);
+        }
           //markerREMOVE(lat_cliOLD,lng_cliOLD);
           $('#lat_cli').val(data.DATA[0].lat_climap);
           $('#lng_cli').val(data.DATA[0].long_climap);
@@ -139,6 +142,10 @@ function draw_rute(){
           $('#lat_cli').val('');
           $('#lng_cli').val('');
 
+      }
+      if ($('#id_cli').val() == 0) {
+        $('#my_lat').val('');
+        $('#my_lng').val('');
       }
     }
   })
@@ -272,78 +279,6 @@ function guardar_ubiRepartidor(id_per, contador) {
         }
       })
     })
-  }
-}
-function ver_repartidores() {
-  if(navigator.geolocation){
-    __ajax('../controllers/mapsController.php?op=3','POST','JSON').done(function(data) {
-      if (data.STATUS == 'OK') {
-        var infowindow = new google.maps.InfoWindow();
-        for (var i in data.DATA) {
-          var pos = {
-            lat: parseFloat(data.DATA[i].lat_repmap),
-            lng: parseFloat(data.DATA[i].long_repmap)
-          };
-          var color = '';
-          if (data.DATA[i].estado_repmap == 1) {
-            color = 'GREEN';
-          }
-          if (data.DATA[i].estado_repmap == 2) {
-            color = '';
-          }
-          if (data.DATA[i].estado_repmap == 3) {
-            color = 'RED';
-          }
-          marker2 = new google.maps.Marker({
-            map: map,
-            draggable: false,
-            //animation: google.maps.Animation.DROP,
-            icon: '../dist/img/cochesolgas' + color + '.png',
-            position: pos
-          });
-          setTimeout((function(marker2, i) {
-            return function() {
-              marker2.setMap(null);
-            }
-          })(marker2, i),5000);
-          google.maps.event.addListener(marker2, 'click', (function(marker2, i) {
-            return function() {
-              console.log(data.DATA[i].estado_repmap)
-              var panel = `
-                <div id="content">
-                  <h5 id="firstHeading" class="firstHeading">${data.DATA[i].nombres_per}</h5>
-                  <div id="bodyContent">
-                    <strong>Ult. vez</strong> ${data.DATA[i].fecha_repmap}`;
-              if (data.DATA[i].estado_repmap == 1) {
-                panel += `<button id="btnasignar${data.DATA[i].id_repmap}" class="btnInfoWindows btn btn-primary btn-block btn-xs mt-2" onclick="mdlAsignarRuta(${data.DATA[i].id_repmap})">Asignar</button>`;
-              }
-              if (data.DATA[i].estado_repmap == 2) {
-                panel += `<span class="btn bg-warning btn-block btn-xs mt-2">Asignado</span>
-                <button class="btn btn-secondary btn-block btn-xs" onclick="mdlVerPedido(${data.DATA[i].id_repmap})">Ver pedido</button>
-                <button class="btn btn-danger btn-block btn-xs" onclick="liberarpedido(${data.DATA[i].id_repmap})">Liberar pedido</button>
-                `;
-              }
-              if (data.DATA[i].estado_repmap == 3) {
-                panel += `<span class="btn bg-info btn-block btn-xs mt-2">Pendiente</span>
-                <button class="btn btn-secondary btn-block btn-xs" onclick="mdlVerPedido(${data.DATA[i].id_repmap})">Ver pedido</button>
-                `;
-              }
-              panel += `</div>
-                </div>
-              `;
-              infowindow.setContent(panel);
-              infowindow.open(map, marker2);
-            }
-          })(marker2, i));
-          marker2.addListener('click', function() {
-            $('#my_lat').val(this.getPosition().lat());
-            $('#my_lng').val(this.getPosition().lng());
-            draw_rute();
-          });
-        }
-        setTimeout(function(){ver_repartidores(); }, 5000);
-      }
-    });
   }
 }
 function mdlAsignarRuta(id_repmap) {

@@ -330,7 +330,7 @@
               		<button type="button" class="btn btn-outline-secondary btn-lg btn-block" onclick="frmProcesarVenta_CLEAN()">VISTA PREVIA</button>
               	</div>-->
                 <div class="col">
-                  <button type="button" id="btnProcesarVentaAnonima" class="btn btn-outline-secondary btn-lg btn-block" onclick="ventaAnonima()" disabled>VENTA ANONIMA</button>
+                  <button type="button" id="btnProcesarVentaAnonima" class="btn btn-outline-secondary btn-lg btn-block" onclick="ventaAnonima(<?= $Sid_per ?>)" disabled>VENTA ANONIMA</button>
                 </div>
               	<div class="col">
               		<button type="submit" id="btnProcesarVenta" class="btn btn-secondary btn-lg btn-block" disabled>PROCESAR</button>
@@ -531,9 +531,14 @@
                   </button>
                 </div>
               `;
-              frmProcesarVenta_CLEAN();
               $('#btnProcesarVenta').removeAttr('disabled');
               $('#btnProcesarVenta').text('PROCESAR');
+              if (<?= $Stipo_per ?> == 1 || <?= $Stipo_per ?> == 2) {
+                var id_cli = $('#id_cli').val();
+	              ajaxPagina('content','./maps/maps.php?id_cli='+id_cli);
+              } else {
+                frmProcesarVenta_CLEAN();
+              }
             } else {
               msjVentaPrductoGeneral.innerHTML = `
                 <div class="alert alert-success alert-dismissible fade show" role="alert">

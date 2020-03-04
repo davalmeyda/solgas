@@ -164,7 +164,7 @@ function documentoCHANGE(valor) {
 		}
 	});
 }
-function ventaAnonima() {
+function ventaAnonima(Stipo_per) {
 	var frmProcesarVenta = document.getElementById('frmProcesarVenta');
 	if (frmProcesarVenta.checkValidity()) {
 	    var opcion = false;
@@ -222,9 +222,15 @@ function ventaAnonima() {
 	                  </button>
 	                </div>
 	              `;
-	              frmProcesarVenta_CLEAN();
 	              $('#btnProcesarVentaAnonima').removeAttr('disabled');
 	              $('#btnProcesarVentaAnonima').text('PROCESAR');
+				  if (Stipo_per == 1 || Stipo_per == 2) {
+					var id_cli = $('#id_cli').val();
+					ajaxPagina('content','./maps/maps.php?id_cli='+id_cli);
+				  } else {
+					frmProcesarVenta_CLEAN();
+				  }
+	              frmProcesarVenta_CLEAN();
 	            } else {
 	              msjVentaPrductoGeneral.innerHTML = `
 	                <div class="alert alert-success alert-dismissible fade show" role="alert">
