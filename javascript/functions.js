@@ -412,6 +412,7 @@ function AsignarRuta(id_repmap) {
           <td><button class="btn btn-outline-info btn-sm" onclick="mdlMapaSHOW(${info.DATA[0].id_repmap},${info.DATA[0].lat_ori},${info.DATA[0].lng_ori},${info.DATA[0].lat_des},${info.DATA[0].lng_des})"><span class="fas fa-eye"></span></button></td>
         </tr>`);
       modalHide('mdlAsignarRuta');
+      modalHide('mdlInfoRepartidor');
       $('#msjMaps').html(`
         <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>CORRECTO!</strong> Asignado correctamente.
@@ -437,6 +438,7 @@ function liberarpedido(id_repmap) {
   __ajax('../controllers/mapsController.php?op=14','POST','JSON',{'id_repmap' : id_repmap})
   .done(function(data) {
     if (data.STATUS == 'OK') {
+      modalHide('mdlInfoRepartidor');
       $('#msjMaps').html(`
         <div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>CORRECTO!</strong> Pedido liberado correctamente.
