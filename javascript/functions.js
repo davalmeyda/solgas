@@ -678,8 +678,6 @@ function localizar(elemento,direccion) {
       function(position){
         $('#btnUbicaionSELECT').attr('disabled','true');
         $('#btnUbicaionSAVE').removeAttr('disabled');
-        $('#lat_cli').val(position.coords.latitude);
-        $('#lng_cli').val(position.coords.longitude);
         console.log(elemento+'-'+direccion);
           var geocoder = new google.maps.Geocoder();
           
@@ -688,6 +686,8 @@ function localizar(elemento,direccion) {
               var resultados = results[0].geometry.location,
                 resultados_lat = resultados.lat(),
                 resultados_long = resultados.lng();
+                $('#lat_cli').val(resultados_lat);
+                $('#lng_cli').val(resultados_long);
               
               map.setCenter(results[0].geometry.location);
               var markerSearch = new google.maps.Marker({
