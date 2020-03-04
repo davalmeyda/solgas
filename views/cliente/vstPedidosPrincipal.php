@@ -42,10 +42,6 @@
                           <select name="fecfin" id="fecfin" class="form-control">
                             <option value="15">15 dias</option>
                             <option value="30">30 dias</option>
-                            <option value="45">45 dias</option>
-                            <option value="60">60 dias</option>
-                            <option value="90">90 dias</option>
-                            <option value="120">120 dias</option>
                           </select>
 					                <!--<input class="form-control" type="date" min="<?= date('Y-m-d') ?>">-->
               					</div>

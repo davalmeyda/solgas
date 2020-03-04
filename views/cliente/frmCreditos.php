@@ -1,6 +1,5 @@
 <?php
 session_start();
-$creditoLIST = $_SESSION['creditoLIST'];
 $creditoLIST_vigente = $_SESSION['creditoLIST_vigente'];
 $creditoLIST_cancelado = $_SESSION['creditoLIST_cancelado'];
 ?>

@@ -211,12 +211,12 @@
 			$objPrestamoBean->setMotivo_pre($data['motivo_pre']);
 			$objPrestamoBean->setId_cli($data['id_cli']);
 			$objPrestamoBean->setId_per(1);
-			$response = $objBalonDao->prestamoINSERT($objPrestamoBean);
+			$response = $objPrestamoDao->prestamoINSERT($objPrestamoBean);
 			if ($response['STATUS'] == 'OK') {
 				$objPrestamoBean->setId_pre($response['ID']);
 				foreach ($data['balones'] as $list) {
 					$objPrestamoBean->setId_bal($list->{'id_bal'});
-					$response = $objBalonDao->balon_prestamoINSERT($objPrestamoBean);
+					$response = $objPrestamoDao->balon_prestamoINSERT($objPrestamoBean);
 				}
 			}
 			echo json_encode($response);

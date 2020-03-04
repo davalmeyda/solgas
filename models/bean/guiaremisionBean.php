@@ -16,6 +16,7 @@ class guiaremisionBean {
 	private $Movilidad;
 	private $Transportista;
 	private $Id_cli;
+	private $Id_per;
 
 	private $Id_balgui;
 	private $Cantidad_balgui;
@@ -148,6 +149,14 @@ class guiaremisionBean {
 
 	function setId_cli($Id_cli) {
     	$this->Id_cli = $Id_cli;
+	}
+
+	function getId_per() {
+		return $this->Id_per;
+	}
+
+	function setId_per($Id_per) {
+    	$this->Id_per = $Id_per;
 	}
 
 	function getId_balgui() {

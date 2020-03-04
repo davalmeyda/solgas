@@ -122,6 +122,7 @@ switch ($op) {
 			$objGuiaremisionBean->setMovilidad($movilidad);
 			$objGuiaremisionBean->setTransportista($id_per);
 			$objGuiaremisionBean->setId_cli($id_cli);
+			$objGuiaremisionBean->setId_per($Sid_per);
 			$response = $objGuiaremisionDao->guiaremisionINSERT($objGuiaremisionBean);
 			if ($response['STATUS'] == 'OK') {
 				$id_gui = $response['ID'];

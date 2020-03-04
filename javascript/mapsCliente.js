@@ -1,16 +1,19 @@
 var map;
-var america_lat = -12.173782;
-var america_lng = -76.9600107;
 var directionsDisplay = new google.maps.DirectionsRenderer({polylineOptions:{strokeColor:'#2E9AFE'}});
 var directionsService = new google.maps.DirectionsService();
 
 
 
 function start_map_cli(){
-	mapcli = new google.maps.Map(document.getElementById('map_cli'), {
-  	center: {lat: america_lat, lng: america_lng},
-  	zoom: 11
-	});
+  if(navigator.geolocation){
+  	navigator.geolocation.getCurrentPosition (
+      function(position){
+      mapcli = new google.maps.Map(document.getElementById('map_cli'), {
+        center: {lat: position.coords.latitude, lng: position.coords.longitude},
+        zoom: 11
+      });
+    });
+  }
 }
 function VerrepartidorMaps(id_repmap) {
   __ajax('../controllers/mapsController.php?op=10','POST','JSON',{'id_repmap':id_repmap}).done(function(data) {

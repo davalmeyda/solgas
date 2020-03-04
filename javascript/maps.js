@@ -1,9 +1,3 @@
-function start_map() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: america_lat, lng: america_lng },
-        zoom: 11
-    });
-}
 var tvar;
 function ver_repartidores(estado) {
     if (navigator.geolocation) {

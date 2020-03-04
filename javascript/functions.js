@@ -1,20 +1,34 @@
 var map;
-var america_lat = -12.173782;
-var america_lng = -76.9600107;
 var directionsDisplay = new google.maps.DirectionsRenderer({polylineOptions:{strokeColor:'#2E9AFE'}});
 var directionsService = new google.maps.DirectionsService();
 
 
+function start_map() {
+  if(navigator.geolocation){
+  	navigator.geolocation.getCurrentPosition (
+      function(position){
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: position.coords.latitude, lng: position.coords.longitude },
+            zoom: 11
+        });
+      });
+    }
+}
 
 function centermap(lat,lng) {
   const center = new google.maps.LatLng(lat, lng);
   window.map.panTo(center);
 }
 function start_mdlmap(){
-  mdlmap = new google.maps.Map(document.getElementById('mdlmap'), {
-    center: {lat: america_lat, lng: america_lng},
-    zoom: 11
-  });
+  if(navigator.geolocation){
+  	navigator.geolocation.getCurrentPosition (
+      function(position){
+        mdlmap = new google.maps.Map(document.getElementById('mdlmap'), {
+          center: {lat: position.coords.latitude, lng: position.coords.longitude},
+          zoom: 11
+        });
+    });
+  }
 }
 
 
@@ -52,7 +66,6 @@ function marcar_my_location(){
         });
         $('#btnUbicaionSAVE').removeAttr('disabled');
   	});
-    //draw_rute();
   }
 }
 function marcar_location_cliente(lat, lng) {
@@ -102,20 +115,23 @@ function draw_rute(getId_cli){
   }
   var my_lat = $('#my_lat').val();
   var my_lng = $('#my_lng').val();
-  var lat_cliOLD = $('#lat_cli').val();
-  var lng_cliOLD = $('#lng_cli').val();
+  //var lat_cliOLD = $('#lat_cli').val();
+  //var lng_cliOLD = $('#lng_cli').val();
   __ajax('../controllers/mapsController.php?op=4','POST','JSON',{'id_cli': id_cli})
   .done(function(data) {
     if (data.STATUS == 'OK') {
       if (data.DATA.length > 0) {
         if (getId_cli !=  undefined) {
           $('#id_cli').append(`<option value="${data.DATA[0].id_cli}">${data.DATA[0].nombres_cli}</option>`);
+          $('#direccion').val(data.DATA[0].direccion_cli);
         }
           //markerREMOVE(lat_cliOLD,lng_cliOLD);
           $('#lat_cli').val(data.DATA[0].lat_climap);
           $('#lng_cli').val(data.DATA[0].long_climap);
-        if(data.DATA[0].id_climap != null) {
+          if(data.DATA[0].id_climap != null) {
+          centermap(`${data.DATA[0].lat_climap}`,`${data.DATA[0].long_climap}`);
           marcar_location_cliente(data.DATA[0].lat_climap, data.DATA[0].long_climap);
+          $('#direccion').val(data.DATA[0].direccion_cli);
           $('#btnUbicaionSAVE').attr('disabled','true');
           $('#btnUbicaionSELECT').removeAttr('disabled');
           if (id_cli > 0 && my_lat !="" && my_lng !="") {
@@ -403,7 +419,7 @@ function AsignarRuta(id_repmap) {
         <button class="btn btn-secondary btn-block btn-xs" onclick="mdlVerPedido(${id_repmap})">Ver pedido</button>
       `);
       var nRows = $('#tblRutamaps > tbody > tr').length;
-      $('#tblRutamaps tbody').prepend(`<tr>
+      $('#tblRutamaps tbody').prepend(`<tr class="bg-danger">
           <td>${parseInt(nRows)+1}</td>
           <td>${info.DATA[0].nombres_per}</td>
           <td>${info.DATA[0].nombres_cli}</td>
