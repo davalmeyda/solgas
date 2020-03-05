@@ -51,7 +51,7 @@
 				if($data['STATUS'] == 'OK'){
 					foreach ($data['DATA'] as $registros) {
 						$row_array['id'] = $registros['id_bal'];
-				        $row_array['text'] = $registros['nombre_bal'];
+				        $row_array['text'] = $registros['nombre_bal'] . ' - ' . $registros['categoria_bal'];
 				        array_push($return_arr,$row_array);
 					}
 				}else{
