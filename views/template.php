@@ -67,7 +67,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <i class="far fa-bell"></i>
             <span id="spnNotificaciones" class="badge badge-warning navbar-badge"></span>
           </a>
-          <div id="divNotificaciones" class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="max-height: 250px;overflow-y: auto;">
+          <div id="divNotificaciones" class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="max-height: 350px;max-width: 350px;width: 350px;overflow-y: auto;">
           </div>
         </li>
       </ul>
