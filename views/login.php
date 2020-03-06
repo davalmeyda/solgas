@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <!--<a href="../../index2.html"><b>Empresa</b>name</a>-->
+    <a href="#"><img src="../dist/img/solgas.png" style="width: 100%;height: 50px;object-fit: none;"></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">

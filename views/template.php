@@ -396,6 +396,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <?php if ($Stipo_per == '5') { ?>
       CargarNotificacionesPersonal();
     <?php } ?>
+    ajaxSimple('content','../controllers/estadisticaController.php',1)
   </script>
 </body>
 

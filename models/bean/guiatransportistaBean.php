@@ -2,6 +2,7 @@
 class guiatransportistaBean {
 	private $Id_guitra;
 	private $Fecha_guitra;
+	private $Id_per;
 	private $Nombres_guitra;
 	private $Puntopartida_guitra;
 	private $Ruc_guitra;
@@ -29,6 +30,14 @@ class guiatransportistaBean {
 
 	function setFecha_guitra($Fecha_guitra) {
     	$this->Fecha_guitra = $Fecha_guitra;
+	}
+
+	function getId_per() {
+		return $this->Id_per;
+	}
+
+	function setId_per($Id_per) {
+    	$this->Id_per = $Id_per;
 	}
 
 	function getNombres_guitra() {

@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Solgas</b>PERU</a>
+    <a href="../../index2.html"><img src="../../dist/img/solgas.png" style="width: 100%;height: 50px;object-fit: none;"></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">

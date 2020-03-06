@@ -354,6 +354,7 @@ function sltId_perCHANGE(id_per) {
 		if (data.STATUS == 'OK') {
 			$("label[for='ruc_guitra']").text(data.DATA[0].tipdoc_per);
 			$('#ruc_guitra').val(data.DATA[0].numdoc_per);
+			$('#nombres_guitra').val(data.DATA[0].nombre_per+' '+data.DATA[0].apellido_per);
 			if (data.DATA[0].licencia_per == '') {
 				$('#nlicencia_guitra').removeAttr('placeholder');
 				$('#nlicencia_guitra').attr('placeholder','SIN LICENCIA');

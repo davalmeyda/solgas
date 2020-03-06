@@ -171,7 +171,8 @@ switch ($op) {
 			require_once '../dist/plantilla/pltGuiaTransportista.php';
 			$count = $objGuiaremisionDao->guiaremisionCOUNT();
 			$Fecha_guitra = date('Y-m-d H:i:s');
-			$Nombres_guitra = $_POST['nombers_guitra'];
+			$id_per = $_POST['id_per'];
+			$Nombres_guitra = $_POST['nombres_guitra'];
 			$Puntopartida_guitra = $_POST['puntopartida_guitra'];
 			$Ruc_guitra = $_POST['ruc_guitra'];
 			$Puntollegada_guitra = $_POST['puntollegada_guitra'];
@@ -182,6 +183,7 @@ switch ($op) {
 			$Numero_ven = $_POST['numero_ven'];
 			$nfilas = $_POST['nfilas'];
 			$objGuiatransportistaBean->setFecha_guitra($Fecha_guitra);
+			$objGuiatransportistaBean->setId_per($id_per);
 			$objGuiatransportistaBean->setNombres_guitra($Nombres_guitra);
 			$objGuiatransportistaBean->setPuntopartida_guitra($Puntopartida_guitra);
 			$objGuiatransportistaBean->setRuc_guitra($Ruc_guitra);

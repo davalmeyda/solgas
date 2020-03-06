@@ -116,9 +116,10 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label for="nombers_guitra" class="col-sm-2 col-form-label">Nombres Transportista*</label>
+                  <label for="id_per" class="col-sm-2 col-form-label">Nombres Transportista*</label>
                   <div class="col-sm-10">
-                    <select id="nombers_guitra" name="nombers_guitra" onchange="sltId_perCHANGE(this.value)"></select>
+                    <select id="id_per" name="id_per" onchange="sltId_perCHANGE(this.value)"></select>
+                    <input type="hidden" id="nombres_guitra" name="nombres_guitra">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -273,7 +274,7 @@
         }
       })
   })
-  $('#nombers_guitra').select2({
+  $('#id_per').select2({
     placeholder: 'Buscar transportista',
     ajax: {
       url: "../controllers/buscarController.php?op=5",
