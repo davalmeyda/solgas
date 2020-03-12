@@ -283,6 +283,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
             <?php } ?>
+            <?php if ($Stipo_per == "1" || $Stipo_per == "2") { ?>
+              <li class="nav-item">
+                <a href="javascript:ajaxSimple('content','../controllers/marcaController.php',1)" class="nav-link">
+                  <i class="nav-icon fas fa-circle"></i>
+                  <p>Marcas</p>
+                </a>
+              </li>
+            <?php } ?>
             <li class="nav-item">
               <a href="javascript:Pagina('../controllers/loginController.php?op=2')" class="nav-link">
                 <i class="nav-icon fas fa-times"></i>

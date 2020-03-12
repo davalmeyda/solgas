@@ -18,9 +18,12 @@ function listBalonVentaAdd(id_bal) {
 		                  	<input id="item${count+1}" value="${count+1}" type="text" class="item form-control">
 		                </div>
 					</td>
-					<td>
-						<input id="descripcion_balven${count+1}" name="descripcion_balven${count+1}" class="descripcion_balven form-control" type="text" value="${info.DATA[0].nombre_bal}" style="min-width: 250px;" readonly>
-					</td>
+					<td style="position: relative">
+						<input id="descripcion_balven${count+1}" name="descripcion_balven${count+1}" class="descripcion_balven form-control" type="text" value="${info.DATA[0].nombre_bal}" style="min-width: 250px;" readonly>`;
+					if (info.DATA[0].categoria_bal == 'PREMIUN') {
+						row += `<span class="right badge badge-warning" style="position: absolute;top: 5px;right: 0">PREMIUN</span>`;
+					}
+					row += `</td>
 					<td><input id="cantidad_balven${count+1}" name="cantidad_balven${count+1}" onkeyup="calcularlinea(${count+1})" onchange="calcularlinea(${count+1})" class="cantidad_balven form-control" type="number" min="1" max="${info.DATA[0].cantidad_bal}" value="1" style="min-width: 75px;" required></td>
 					<td><input id="igv_balven${count+1}" name="igv_balven${count+1}" class="igv_balven form-control text-center" style="min-width: 75px;" readonly></td>
 					<td><input id="valor_unitario${count+1}" name="valor_unitario${count+1}" class="valor_unitario form-control text-center" style="min-width: 75px;" readonly></td>

@@ -375,6 +375,29 @@
 			exit();
 			break;
 		}
+		case 18: {
+			require './simple_html_dom.php';
+			error_reporting(E_ALL ^ E_NOTICE);
+			$response = array('STATUS' => '', 'ERROR' => '', 'ID' => '', 'DATA' => array());
+			$dni = $_POST['dni'];
+			$consulta = file_get_html('https://eldni.com/buscar-por-dni?dni='.$dni);
+			$datosnombres = array();
+			foreach($consulta->find('td') as $header) {
+			 	$datosnombres[] = $header->plaintext;
+			}
+			if (isset($datosnombres[0])) {
+				$response['STATUS'] = 'OK';
+				$response['DATA'][0]['nombres'] = $datosnombres[0];
+				$response['DATA'][0]['apellidop'] = $datosnombres[1];
+				$response['DATA'][0]['apellidom'] = $datosnombres[2];
+			} else {
+				$response['STATUS'] = 'ERROR';
+				$response['ERROR'] = 'Numero de DNI no correcto';
+			}
+			echo json_encode($response);
+			exit();
+			break;
+		}
 	}
 	header("Location:" . $page);
 ?>

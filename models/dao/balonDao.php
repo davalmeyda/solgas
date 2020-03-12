@@ -67,13 +67,13 @@ class balonDao {
         return $answer;
     }
     public function marcaSELECT() {
-        $query = "SELECT id_mar, nota_mar FROM marca";
+        $query = "SELECT id_mar, nota_mar, tipo FROM marca";
         $objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
     }
     public function marcaSELECT_tipo($tipo) {
-        $query = "SELECT id_mar, nota_mar FROM marca WHERE tipo='$tipo'";
+        $query = "SELECT id_mar, nota_mar, tipo FROM marca WHERE tipo='$tipo'";
         $objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;
@@ -241,6 +241,24 @@ class balonDao {
     }
     public function balonxuEXIST_barcode($codbar_balxu) {
         $query = "SELECT id_balxu,count(*) AS count_balxu FROM balonxu WHERE codbar_balxu='$codbar_balxu'";
+        $objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+    }
+    public function marcaINSERT($nota_mar ,$tipo) {
+        $query = "INSERT INTO marca(id_mar, nota_mar, tipo) VALUES (NULL,'" . $nota_mar .  "','" . $tipo .  "')";
+        $objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+    }
+    public function marcaUPDATE($id_mar, $nota_mar ,$tipo) {
+        $query = "UPDATE marca SET nota_mar='" . $nota_mar .  "', tipo='" . $tipo .  "' WHERE id_mar='" . $id_mar .  "'";
+        $objConexionBD = new ConexionBD();
+        $answer = $objConexionBD->exe_data($query);
+        return $answer;
+    }
+    public function marcaDATA($id_mar) {
+        $query = "SELECT id_mar, nota_mar, tipo FROM marca WHERE id_mar='$id_mar'";
         $objConexionBD = new ConexionBD();
         $answer = $objConexionBD->exe_data($query);
         return $answer;

@@ -412,7 +412,12 @@
               <div class="form-group row">
                 <label for="nbrNumdoc_cli" class="col-sm-3">NÚMERO DOCUMENTO*</label>
                 <div class="col-sm-9">
-                  <input type="text" maxlength="8" class="form-control" id="nbrNumdoc_cli" name="nbrNumdoc_cli" placeholder="Digitar el número de documentos" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                  <div class="input-group mb-3">
+                    <input type="text" maxlength="8" class="form-control" id="nbrNumdoc_cli" name="nbrNumdoc_cli" placeholder="Digitar el número de documentos" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                    <span class="input-group-append">
+                      <button id="btnExtraer" type="button" class="btn btn-info btn-flat" onclick="extraerdatosCliente()">Extraer</button>
+                    </span>
+                  </div>
                 </div>
               </div>
               <script>
@@ -420,10 +425,13 @@
                   if (this.value == 1) {
                     $('#nbrNumdoc_cli').removeAttr('maxlength');
                     $('#nbrNumdoc_cli').attr('maxlength','8');
+                    $('#btnExtraer').removeAttr('disabled');
                   }
                   if (this.value == 6) {
                     $('#nbrNumdoc_cli').removeAttr('maxlength');
                     $('#nbrNumdoc_cli').attr('maxlength','11');
+                    $('#btnExtraer').removeAttr('disabled');
+                    $('#btnExtraer').attr('disabled',true);
                   }
                 })
               </script>

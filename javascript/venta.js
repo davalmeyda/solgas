@@ -925,3 +925,14 @@ function filtrarVentasReset(fecha) {
 	modalDestroy();
 	ajaxCompuesto('content','../controllers/comprobantesController.php',3,'fecha='+fecha);
 }
+function extraerdatosCliente() {
+    var numdoc = $('#nbrNumdoc_cli').val();
+    var data = new FormData();
+    data.append('dni', numdoc);
+    fetch('../controllers/clienteController.php?op=18',{method: 'POST', body: data}).then(res => res.json())
+    .then(data => {
+        if (data.STATUS == 'OK') {
+            $('#txtNombres_cli').val(data.DATA[0].nombres+" "+data.DATA[0].apellidop+" "+data.DATA[0].apellidom);
+        }
+    })
+}
